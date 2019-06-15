@@ -8,3 +8,7 @@ creating more encounters, enemies, and revamping the combat system through intro
 "dimensions" of combat (i.e status conditions and spells casted using a different resource, mana).
 Perhaps I could even use JavaFX or Processing to transcend this game from text based, but then it 
 may lose its' indie old-school dungeon runner feel. 
+
+You may be wondering what sample.java is: it is simply a separate file to test Blackjack, which will be in the game.
+The enemy in Blackjack will have an expert system intelligence (which of course will only be as sophisticated as a person
+can be while playing a gambling game ;>)
