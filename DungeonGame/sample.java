@@ -11,9 +11,9 @@ public class sample
 		int gamblerNumber = 0;
 		int visibleGamblerNumber = 0;
 		System.out.println("The gambler smiles and deals the cards.");
-		playerNumber =  Math.random(13) +  Math.random(13);
+		playerNumber =  getRandomInt(1, 13) +  getRandomInt(1, 13);
 		System.out.println("Your starting hand has a total of " + playerNumber + " points.");
-		visibleGamblerNumber =  Math.random(13);
+		visibleGamblerNumber =  getRandomInt(1, 13);
 		gamblerNumber = visibleGamblerNumber * 2;
 		System.out.println("You see that the gambler has " + visibleGamblerNumber + " points.");
 		for (int i = 0; i < 3; i++)
@@ -22,7 +22,7 @@ public class sample
 			int userChoice = input.nextInt();
 			if (userChoice == 1)
 			{	
-				int rando = Math.random(13);
+				int rando = getRandomInt(1, 13);
 				playerNumber += rando;
 				System.out.println("You now have a total of " + playerNumber + "points.");
 				
@@ -31,7 +31,15 @@ public class sample
 			{
 				System.out.println("You choose to stand.");
 			}
-			System.out.println("The gambler chooses to stand.");
+			if (gamblerNumber < 10)
+			{
+				visibleGamblerNumber += getRandomInt(1, 13);
+				System.out.println("The gambler takes a card. His visible total is now " + visibleGamblerNumber + " points.");
+			}
+			else
+			{
+				System.out.println("The gambler chooses to stand.");
+			}
 		}
 		System.out.println("The gambler calls reveal!");
 		System.out.println("You had " + playerNumber + " points. The gambler had " + gamblerNumber + " points.");
@@ -54,5 +62,11 @@ public class sample
 		{
 			System.out.println("You lose!");
 		}
+	}
+
+	public static int getRandomInt(int min, int max)
+	{
+    	int x = (int)(Math.random()*((max-min)+1))+min;
+    	return x;
 	}
 }

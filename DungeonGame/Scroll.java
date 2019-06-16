@@ -6,6 +6,13 @@ public class Scroll
 	private int energyCost;
 	private int power;
 
+	public Scroll(double a, int e, int p)
+	{
+		accuracy = a;
+		energyCost = e;
+		power = p;
+	}
+
 	public void setAccuracy(double amount)
 	{
 		accuracy = amount;

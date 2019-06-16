@@ -10,6 +10,17 @@ public class Player
 	private int energy;
 	private int gold;
 
+	public Player()
+	{
+		maxHealth = 100;
+		health = 100;
+		attack = 10;
+		defense = 10;
+		maxEnergy = 100;
+		energy = 100;
+		gold = 0;
+	}
+
 	public void atkUp(int amount)
 	{
 		attack += amount;
@@ -63,6 +74,12 @@ public class Player
 	public int getEnergy()
 	{
 		return energy;
+	}
+
+	public void setEnergy(int amount)
+	{
+		maxEnergy = amount;
+		energy = amount;
 	}
 
 	public void energyUp(int amount)
