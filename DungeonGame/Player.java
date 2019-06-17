@@ -2,6 +2,7 @@ import java.lang.Math;
 
 public class Player
 {
+	private String name;
 	private double maxHealth;
 	private double health;
 	private int attack;
@@ -9,6 +10,7 @@ public class Player
 	private int maxEnergy;
 	private int energy;
 	private int gold;
+	private boolean isAlive;
 
 	public Player()
 	{
@@ -19,6 +21,22 @@ public class Player
 		maxEnergy = 100;
 		energy = 100;
 		gold = 0;
+		isAlive == true;
+	}
+
+	public void setStatus(boolean a)
+	{
+		isAlive = a;
+	}
+
+	public String setName(String s)
+	{
+		name = s;
+	}
+
+	public void getName()
+	{
+		return name;
 	}
 
 	public void atkUp(int amount)

@@ -2,11 +2,31 @@ import java.lang.Math;
 
 public class Enemy
 {
+	private String name;
 	private double maxHealth;
 	private double health;
 	private int attack;
 	private int defense;
 	private int value;
+
+	public Enemy(int h, int a, int d, int v)
+	{
+		maxHealth = h;
+		health = h;
+		attack = a;
+		defense = d;
+		value = v;
+	}
+
+	public String setName(String s)
+	{
+		name = s;
+	}
+
+	public void getName()
+	{
+		return name;
+	}
 
 	public int getAttack()
 	{

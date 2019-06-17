@@ -1,3 +1,9 @@
+/****************************************************************
+Tower of Quest by Sulfruos
+****************************************************************/
+
+// end of initiateFight(): add making the still playing boolean of the player false to end the game if player loses all health
+
 import java.lang.Math;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -12,11 +18,22 @@ public class Main
 		Part 1: Setting Up Player, Defining Scrolls, Monsters, and Bosses
 		****************************************************************/
 
+		Player p1 = new Player();
+
+		Enemy Rockalyte = new Enemy(50, 5, 15, 10);
+		Enemy Duelist = new Enemy(200, 15, 10, 35);
+
+		Scroll basicAttack = new Scroll(0.8, 5, 1.0);
+
+		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
+
 		floorNumber = 0;
 
 		/****************************************************************
 		Part 2: The Actual Game (calling methods for encounters/fights)
 		****************************************************************/
+
+
 	}
 
 	/****************************************************************
@@ -57,7 +74,7 @@ public class Main
 					System.out.println("That wasn't just any rock...");
 					System.out.println("It's a Rockalyte! And it's angry!");
 					int rando = getRandomInt(1, 10);
-					p1 = initiateFight(rando, p1, Rockalyte);
+					p1 = initiateFight(p1, Rockalyte, scrollsOwned);
 				}
 			}
 			else
@@ -102,7 +119,7 @@ public class Main
 			{
 				System.out.println("Without hesitation, the duelist laughes and lunges!");
 				int rando = getRandomInt(1, 10);
-				p1 = initiateFight(rando, p1, Duelist);
+				p1 = initiateFight(p1, Duelist, scrollsOwned);
 			}
 			else
 			{
@@ -192,18 +209,112 @@ public class Main
 	}
 
 	/****************************************************************
-	Method to Call for Random Fights with Basic Enemies
+	Methods to Call for Random Fights with Basic Enemies
 	****************************************************************/
 
-	public Player initiateFight(int selection, Player p1, Enemy e1)
+	public Player setUpFight(int selection)
+	{
+		if (selection == 1)
+		{
+
+		}
+	}
+
+	public Player initiateFight(Player p1, Enemy e1, scrollInventory s1)
 	{
 
+		System.out.println("You face a " + e1.getName() + "!");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+
+		boolean stillFighting == true;
+		boolean guardUp == false; // used to check if player guarded this turn
+		Scanner input = new Scanner(System.in);
+
+		boolean playerWins == false;
+		boolean enemyWins == false;
+		
+
+		while (stillFighting)
+		{
+			// Player turn 
+
+			System.out.println("You have " + p1.getHealth() + " HP and " + p1.getEnergy() + " energy remaining.");
+			System.out.println("The enemy is at " + e1.getHealth() + " health.");
+			System.out.println("Choose an action.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("Attack(1), Guard(2), Items(3)");
+			int userChoice = input.nextInt();
+			if (userChoice == 1)
+			{
+				System.out.println("Choose an attack.");
+				s1.printScrolls();
+				userChoice = input.nextInt();
+				double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) / 2) * Math.random(3);
+				double decimalPlayerDamage = scrollFormula - e1.getDefense();
+				int roundedPlayerDamage = (int) decimalPlayerDamage;
+				e1.hpDown(roundedPlayerDamage);
+				System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() " health.");
+				if (e1.getHealth() <= 0)
+				{
+					stillFighting == false;
+					playerWins == true;
+				}
+			}
+			else if (userChoice == 2)
+			{
+				System.out.println("You guard this turn, restoring 20 energy and reducing damage taken by 25%.");
+				p1.energyUp(20);
+				guardUp == true;
+			}
+			else
+			{
+
+			}
+			
+			// Enemy turn
+
+			System.out.println("It is the enemy's turn.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			double decimalEnemyDamage = (e1.getAttack() / 2) * Math.random(3);
+			if (guardUp)
+			{
+				decimalEnemyDamage / 4;
+				decimalEnemyDamage * 3;
+			}
+			int roundedEnemyDamage = (int) decimalEnemyDamage;
+			System.out.println(e1.getName() + " attacks you for " + roundedEnemyDamage + " damage.");
+			p1.hpDown(roundedEnemyDamage);
+			System.out.println("You are now at " + p1.getHealth() + " health.");
+
+			if (p1.getHealth() <= 0)
+			{
+				stillFighting == false;
+				enemyWins == true;
+			}
+
+
+		}
+
+		if (playerWins)
+		{
+			p1.addGold(e1.getValue());
+			System.out.println("You win! You gain " + e1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
+
+			return p1;
+		}
+		else
+		{
+
+		}
 	}
 
 	/****************************************************************
 	Method to Call for Fights with Bosses
 	****************************************************************/
-
+/*
 	public Player initiateBossFight(int selection, Player p1, Boss b1)
 	{
 

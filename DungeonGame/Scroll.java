@@ -5,8 +5,9 @@ public class Scroll
 	private double accuracy; // note: percent change of MISSING, not of hitting
 	private int energyCost;
 	private int power;
+	private String name;
 
-	public Scroll(double a, int e, int p)
+	public Scroll(double a, int e, double p)
 	{
 		accuracy = a;
 		energyCost = e;
@@ -33,13 +34,23 @@ public class Scroll
 		return energyCost;
 	}
 
-	public void setPower(int amount)
+	public void setPower(double amount)
 	{
 		power = amount;
 	}
 
-	public int getPower()
+	public double getPower()
 	{
 		return power;
+	}
+
+	public String setName(String s)
+	{
+		name = s;
+	}
+
+	public void getName()
+	{
+		return name;
 	}
 }
