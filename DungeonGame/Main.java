@@ -208,7 +208,7 @@ public class Main
 				{
 					System.out.println("...");
 					TimeUnit.SECONDS.sleep(1);
-					System.out.println("'I am sorry hero, but you lack sufficient gold. I wish you luck regardless.'")
+					System.out.println("'I am sorry hero, but you lack sufficient gold. I wish you luck regardless.'");
 				}
 				
 			}
