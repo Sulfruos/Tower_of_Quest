@@ -14,22 +14,16 @@ public class Main
 	public static void main (String [] args) throws InterruptedException
 	{
 		/****************************************************************
-		Part 1: Setting Up Player, Defining Scrolls, Monsters, and Bosses
+		Part 1: Setting Up Player, Defining Scrolls
 		****************************************************************/
 
 		Player p1 = new Player();
 
-		Enemy Rockalyte = new Enemy(50, 5, 15, 10, "Rockalyte");
-		Enemy Duelist = new Enemy(200, 15, 10, 35, "Duelist");
-
-		Scroll basicAttack = new Scroll(0.2, 5, 1, "Sword Slash");
+		Scroll basicAttack = new Scroll(0.2, 5, 2, "Sword Slash");
 
 		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
 
-
-		/****************************************************************
-		Part 2: The Actual Game (calling methods for encounters/fights)
-		****************************************************************/
+		Scanner input = new Scanner(System.in);
 
 		System.out.println("A dishonored knight");
 		System.out.println("...");
@@ -39,12 +33,12 @@ public class Main
 		TimeUnit.SECONDS.sleep(1);
 		System.out.println("Yet still, a way to redemption");
 		System.out.println("...");
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
 		System.out.println("'You weren't exiled for your inability. You were exiled for your boldness.'");
-		TimeUnit.SECONDS.sleep(1);
-		System.out.println("'You let the noble die so you could fight in the front lines. But they didn't see that'");
-		System.out.println("'Prove them wrong. Climb the tower with nothing but your sword and your heroism'");
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(2);
+		System.out.println("'You let the noble die so you could fight in the front lines. But they didn't see that.'");
+		System.out.println("'Prove them wrong. Climb the tower with nothing but your sword and your heroism.'");
+		TimeUnit.SECONDS.sleep(3);
 		System.out.println("*******   *****   *       *       *  *****  * *  ");
 		System.out.println("   *     *     *   *     * *     *   *      *   * ");
 		System.out.println("   *     *     *    *   *   *   *    *****  * *   ");
@@ -62,17 +56,72 @@ public class Main
 		System.out.println("*     *  *    *  *****  *****     *   ");
 		System.out.println("*     *  *    *  *          *     *   ");
 		System.out.println(" ***** * ******  *****  *****     *   ");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("'Before we begin, what is the hero's name?");
+		p1.setName(input.next());
+		System.out.println("Very well " + p1.getName() + ". It is time to ascend the Tower.");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
 
+		/****************************************************************
+		Part 2: The Actual Game (calling methods for encounters/fights)
+		****************************************************************/
 
+		int decFloor = 1;
 
 		for (int i = 1; i < 100; i++)
 		{
 			if (p1.getStatus() == true)
 			{
+				System.out.println(p1.getName() + " has " + p1.getGold() + " gold, " + p1.getHealth() + " health, " + p1.getAttack() + " attack, and " + p1.getDefense() + " defense.");
 				System.out.println("Floor: " + i);
 				System.out.println("...");
 				TimeUnit.SECONDS.sleep(1);
-				p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned);
+				if (decFloor == 1)
+				{
+					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
+				}
+				else if (decFloor == 2)
+				{
+					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+				}
+				else if (decFloor == 3)
+				{
+					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
+				}
+				else if (decFloor == 4)
+				{
+					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
+				}
+				else if (decFloor == 5)
+				{
+					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+				}
+				else if (decFloor == 6)
+				{
+					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
+				}
+				else if (decFloor == 7)
+				{
+					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
+				}
+				else if (decFloor == 8)
+				{
+					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
+				}
+				else if (decFloor == 9)
+				{
+					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+				}
+				else if (decFloor == 10)
+				{
+					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+					decFloor = 1;
+
+				}
+
+				decFloor++;
 
 			}
 		}
@@ -270,15 +319,59 @@ public class Main
 	/****************************************************************
 	Methods to Call for Random Fights with Basic Enemies
 	****************************************************************/
-/*
-	public static Player setUpFight(int selection)
+
+	public static Player setUpFight(int selection, Player p1, scrollInventory s1) throws InterruptedException
 	{
+		Enemy Ogre = new Enemy(40, 6, 7, 7, "Ogre");
+		Enemy Bat = new Enemy(20, 5, 3, 4, "Bat");
+		Enemy Golem = new Enemy(70, 2, 8, 7, "Golem");
+		Enemy Elemental = new Enemy(25, 12, 2, 6, "Elemental");
+		Enemy Feral = new Enemy(50, 5, 5, 5, "Feral");
+		Enemy Sorcerer = new Enemy(40, 9, 4, 8, "Sorcerer");
+		Enemy Fallen = new Enemy(80, 10, 5, 15, "Fallen");
+		Enemy EyeEye = new Enemy(30, 6, 6, 6, "EyeEye");
+		Enemy Slime = new Enemy(25, 2, 4, 2, "Slime");
+
 		if (selection == 1)
 		{
-
+			initiateFight(p1, Ogre, s1);
 		}
+		else if (selection == 2)
+		{
+			initiateFight(p1, Bat, s1);
+		}
+		else if (selection == 3)
+		{
+			initiateFight(p1, Golem, s1);
+		}
+		else if (selection == 4)
+		{
+			initiateFight(p1, Elemental, s1);
+		}
+		else if (selection == 5)
+		{
+			initiateFight(p1, Feral, s1);
+		}
+		else if (selection == 6)
+		{
+			initiateFight(p1, Sorcerer, s1);
+		}
+		else if (selection == 7)
+		{
+			initiateFight(p1, Fallen, s1);
+		}
+		else if (selection == 8)
+		{
+			initiateFight(p1, EyeEye, s1);
+		}
+		else if (selection == 9)
+		{
+			initiateFight(p1, Slime, s1);
+		}
+
+		return p1;
 	}
-	*/
+	
 
 	public static Player initiateFight(Player p1, Enemy e1, scrollInventory s1) throws InterruptedException
 	{
@@ -392,6 +485,7 @@ public class Main
 		if (playerWins)
 		{
 			p1.addGold(e1.getValue());
+			p1.energyUp(20);
 			System.out.println("You win! You gain " + e1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
 
 			return p1;
@@ -488,22 +582,26 @@ public class Main
 			{
 				System.out.println("You win!");
 				p1.addGold(20);
+				System.out.println("You are now at " + p1.getGold() + " gold.");
 			}
 			else
 			{
 				System.out.println("You lose!");
 				p1.subtractGold(20);
+				System.out.println("You are now at " + p1.getGold() + " gold.");
 			}
 		}
 		else if (playerNumber == 21)
 		{
 			System.out.println("You win!");
 			p1.addGold(20);
+			System.out.println("You are now at " + p1.getGold() + " gold.");
 		}
 		else
 		{
 			System.out.println("You lose!");
 			p1.subtractGold(20);
+			System.out.println("You are now at " + p1.getGold() + " gold.");
 		}
 
 		return p1;
