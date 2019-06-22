@@ -9,6 +9,4 @@ creating more encounters, enemies, and revamping the combat system through intro
 Perhaps I could even use JavaFX or Processing to transcend this game from text based, but then it 
 may lose its' indie old-school dungeon runner feel. 
 
-You may be wondering what sample.java is: it is simply a separate file to test Blackjack, which will be in the game.
-The enemy in Blackjack will have an expert system intelligence (which of course will only be as sophisticated as a person
-can be while playing a gambling game ;>)
+Currently, the game has all of the structure made. Random events and random encounters against enemies are finished, and the baseline for scroll collection has also been implemented through using an ArrayList. I plan on adding boss fights and vendors for both scrolls and items in order to bring more dimension to the game. I may even add some good old sound effects (but will remove them if they don't add to the feel) !
