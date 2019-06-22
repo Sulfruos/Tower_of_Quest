@@ -311,32 +311,34 @@ public class Main
 				System.out.println("Choose an attack.");
 				s1.printScrolls();
 				userChoice = input.nextInt();
-				double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) / 2) * getRandomInt(1, 3);
-				double decimalPlayerDamage = scrollFormula - e1.getDefense();
-				int roundedPlayerDamage = (int) decimalPlayerDamage;
-				if (roundedPlayerDamage > 0)
+				double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getAttack() / 2) * getRandomInt(1, 3);
+				if (scrollFormula == 0)
 				{
-					e1.hpDown(roundedPlayerDamage);
-					System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
-					if (e1.getHealth() <= 0)
-					{
-						stillFighting = false;
-						playerWins = true;
-					}
+					System.out.println("Your attack missed!");
 				}
 				else
 				{
-					if (scrollFormula == 0)
+					double decimalPlayerDamage = scrollFormula - e1.getDefense();
+					int roundedPlayerDamage = (int) decimalPlayerDamage;
+					if (roundedPlayerDamage > 0)
 					{
-						System.out.println("Your attack missed!");
+						e1.hpDown(roundedPlayerDamage);
+						System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
+						if (e1.getHealth() <= 0)
+						{
+							stillFighting = false;
+							playerWins = true;
+						}
 					}
 					else
 					{
-						System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
-						e1.hpDown(1);
+						
+							System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+							e1.hpDown(1);
+						
 					}
-					
 				}
+				
 				
 			}
 			else if (userChoice == 2)
