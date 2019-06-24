@@ -20,8 +20,16 @@ public class Main
 		Player p1 = new Player();
 
 		Scroll basicAttack = new Scroll(0.2, 5, 2, "Sword Slash");
+		Scroll swordCharge = new Scroll(0.4, 20, 8, "Sword Charge");
+		Scroll preciseStrike = new Scroll(0, 10, 2, "Precise Strike");
+		Scroll wildSwing = new Scroll(0.5, 5, 4, "Wild Swing");
+		Scroll dragonStrike = new Scroll(0, 30, 8, "Dragon Strike");
+
 
 		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
+		basicAttack.acquire();
+		scrollInventory.addScroll(swordCharge);
+		swordCharge.acquire();
 
 		Scanner input = new Scanner(System.in);
 
@@ -34,10 +42,10 @@ public class Main
 		System.out.println("Yet still, a way to redemption");
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(2);
-		System.out.println("'You weren't exiled for your inability. You were exiled for your boldness.'");
+		System.out.println("'You weren't exiled for your inability.\n You were exiled for your boldness.'");
 		TimeUnit.SECONDS.sleep(2);
-		System.out.println("'You let the noble die so you could fight in the front lines. But they didn't see that.'");
-		System.out.println("'Prove them wrong. Climb the tower with nothing but your sword and your heroism.'");
+		System.out.println("'You let the noble die so you could fight in the front lines.\n But they didn't see that.'");
+		System.out.println("'Prove them wrong.\n Climb the tower with nothing but your sword and your heroism.'");
 		TimeUnit.SECONDS.sleep(3);
 		System.out.println("*******   *****   *       *       *  *****  * *  ");
 		System.out.println("   *     *     *   *     * *     *   *      *   * ");
@@ -60,7 +68,7 @@ public class Main
 		TimeUnit.SECONDS.sleep(1);
 		System.out.println("'Before we begin, what is the hero's name?");
 		p1.setName(input.next());
-		System.out.println("Very well " + p1.getName() + ". It is time to ascend the Tower.");
+		System.out.println("'Very well " + p1.getName() + ". It is time to ascend the Tower.'");
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
 
@@ -74,7 +82,7 @@ public class Main
 		{
 			if (p1.getStatus() == true)
 			{
-				System.out.println(p1.getName() + " has " + p1.getGold() + " gold, " + p1.getHealth() + " health, " + p1.getAttack() + " attack, and " + p1.getDefense() + " defense.");
+				System.out.println(p1.getName() + " has " + p1.getGold() + " gold, " + p1.getHealth() + " health, " + p1.getEnergy() + " energy, " + p1.getAttack() + " attack, and " + p1.getDefense() + " defense.");
 				System.out.println("Floor: " + i);
 				System.out.println("...");
 				TimeUnit.SECONDS.sleep(1);
@@ -117,6 +125,7 @@ public class Main
 				else if (decFloor == 10)
 				{
 					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+					p1 = floorShop(p1);
 					decFloor = 1;
 
 				}
@@ -404,33 +413,42 @@ public class Main
 				System.out.println("Choose an attack.");
 				s1.printScrolls();
 				userChoice = input.nextInt();
-				double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getAttack() / 2) * getRandomInt(1, 3);
-				if (scrollFormula == 0)
+				Scroll checkEnergy = s1.chooseScroll(userChoice);
+				if (p1.getEnergy() > checkEnergy.getEnergyCost())
 				{
-					System.out.println("Your attack missed!");
-				}
-				else
-				{
-					double decimalPlayerDamage = scrollFormula - e1.getDefense();
-					int roundedPlayerDamage = (int) decimalPlayerDamage;
-					if (roundedPlayerDamage > 0)
+					double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getAttack() / 2) * getRandomInt(1, 3);
+					if (scrollFormula == 0)
 					{
-						e1.hpDown(roundedPlayerDamage);
-						System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
-						if (e1.getHealth() <= 0)
-						{
-							stillFighting = false;
-							playerWins = true;
-						}
+						System.out.println("Your attack missed!");
 					}
 					else
 					{
-						
-							System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
-							e1.hpDown(1);
-						
+						double decimalPlayerDamage = scrollFormula - e1.getDefense();
+						int roundedPlayerDamage = (int) decimalPlayerDamage;
+						if (roundedPlayerDamage > 0)
+						{
+							e1.hpDown(roundedPlayerDamage);
+							System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
+							if (e1.getHealth() <= 0)
+							{
+								stillFighting = false;
+								playerWins = true;
+							}
+						}
+						else
+						{
+							
+								System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+								e1.hpDown(1);
+							
+						}
 					}
 				}
+				else
+				{
+					System.out.println("Not enough energy!");
+				}
+				
 				
 				
 			}
@@ -442,7 +460,21 @@ public class Main
 			}
 			else
 			{
+				if (p1.potCount() > 0)
+				{
+					System.out.println("HEALTH POTIONS: " + p1.potCount());
+					System.out.println("Press 1 to use a Health Potion or 2 to Quit");
+					userChoice = input.nextInt();
+					if (userChoice == 1)
+					{
+						p1.usePot();
+					}
 
+				}
+				else
+				{
+					System.out.println("Your bag is empty!");
+				}
 			}
 			
 			// Enemy turn
@@ -503,19 +535,105 @@ public class Main
 /*
 	public Player initiateBossFight(int selection, Player p1, Boss b1)
 	{
-
+		//Boss Idea: Anubis (Floor 10)
+		// - Attacks: Basic Attack, Rend Soul (deals damage that ignores DEF and heals for 50%), Emanate (gains Attack and Defense)
 	}
 
 	/****************************************************************
 	Method to Call for Shop after Boss Fight
 	****************************************************************/
-/*
-	public static Player floorShop(Player p1)
+
+	public static Player floorShop(Player p1) throws InterruptedException
 	{
+		boolean stillShopping = true;
+		Scanner input = new Scanner(System.in);
+
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("'So you made it out alive, eh? Take a look at some of my merchandise so you can stay in one piece.'");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		while (stillShopping)
+		{
+			System.out.println("Press 1 to view Health Potion, 2 to view Attack Upgrade, 3 to view Defense Upgrade, 4 to view a new Physical Attack Scroll, or 5 to Quit.");
+			int userChoice = input.nextInt();
+			if (userChoice == 1)
+			{
+				System.out.println("HEALTH POTION: RESTORES 30 HP. TASTES LIKE CHERRY. 20 GOLD PER CASK.");
+				System.out.println("Press 1 to buy Health Potion or 2 to Go back to menu.");
+				userChoice = input.nextInt();
+				if (userChoice == 1)
+				{
+					if (p1.getGold() >= 20)
+					{
+						System.out.println("You bought a Health Potion!");
+						p1.addPot();
+						p1.subtractGold(20);
+						System.out.println("You are now at " + p1.getGold() + " gold.");
+					}
+					else
+					{
+						System.out.println("Insufficient funds.");
+					}
+				}
+			}
+			else if (userChoice == 2)
+			{
+				System.out.println("ATTACK UPGRADE: INCREASES MAX ATTACK BY 3. SHARPEN THAT SWORD! 10 GOLD PER SHINE.");
+				System.out.println("Press 1 to buy Attack Upgrade or 2 to Go back to menu.");
+				userChoice = input.nextInt();
+				if (userChoice == 1)
+				{
+					if (p1.getGold() >= 10)
+					{
+						System.out.println("You bought an Attack Upgrade!");
+						p1.atkUp(3);
+						p1.subtractGold(10);
+						System.out.println("You are now at " + p1.getGold() + " gold.");
+					}
+					else
+					{
+						System.out.println("Insufficient funds.");
+					}
+				}
+			}
+			else if (userChoice == 3)
+			{
+				System.out.println("DEFENSE UPGRADE: INCREASES MAX DEFENSE BY 3. MAKE 'EM HATE YOU! 10 GOLD PER FORTIFICATION.");
+				System.out.println("Press 1 to buy Defense Upgrade or 2 to Go back to menu.");
+				userChoice = input.nextInt();
+				if (userChoice == 1)
+				{
+					if (p1.getGold() >= 10)
+					{
+						System.out.println("You bought a Defense Upgrade!");
+						p1.defUp(3);
+						p1.subtractGold(10);
+						System.out.println("You are now at " + p1.getGold() + " gold.");
+					}
+					else
+					{
+						System.out.println("Insufficient funds.");
+					}
+				}
+			}
+			else
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("'Aight kid, break a leg!'");
+				stillShopping = false;
+			} 
+		}
+
+		return p1;
+		
+
+
 
 	}
 
-	*/
+	
 
 	/****************************************************************
 	Method to Call if the Player LOSES a fight

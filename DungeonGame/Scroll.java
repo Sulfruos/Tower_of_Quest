@@ -6,6 +6,7 @@ public class Scroll
 	private int energyCost;
 	private int power;
 	private String name;
+	private boolean isOwned;
 
 	public Scroll(double a, int e, int p, String s)
 	{
@@ -54,4 +55,10 @@ public class Scroll
 	{
 		return name;
 	}
+
+	public void acquire()
+	{
+		isOwned = true;
+	}
+
 }

@@ -10,6 +10,7 @@ public class Player
 	private int maxEnergy;
 	private int energy;
 	private int gold;
+	private int healthPots;
 	private boolean isAlive;
 
 	public Player()
@@ -21,6 +22,7 @@ public class Player
 		maxEnergy = 100;
 		energy = 100;
 		gold = 0;
+		healthPots = 0;
 		isAlive = true;
 	}
 
@@ -127,6 +129,22 @@ public class Player
 	public int getGold()
 	{
 		return gold;
+	}
+
+	public void addPot()
+	{
+		healthPots++;
+	}
+
+	public void usePot()
+	{
+		healthPots--;
+		hpUp(30);
+	}
+
+	public int potCount()
+	{
+		return healthPots;
 	}
 
 	//below method takes player's attack choice and gets 

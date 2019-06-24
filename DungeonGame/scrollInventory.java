@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class scrollInventory
 {
-	private ArrayList<Scroll> inv;
+	private static ArrayList<Scroll> inv;
 
 	public scrollInventory(Scroll x)
 	{
@@ -11,7 +11,7 @@ public class scrollInventory
 		inv = list;
 	}
 
-	public void addScroll(Scroll x)
+	public static void addScroll(Scroll x)
 	{
 		inv.add(x);
 	}
@@ -22,6 +22,7 @@ public class scrollInventory
 		for (Scroll item : inv)
 		{
 			System.out.println("(" + count + ")" + " : " + item.getName());
+			count++;
 		}
 	}
 
