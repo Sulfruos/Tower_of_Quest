@@ -19,17 +19,22 @@ public class Main
 
 		Player p1 = new Player();
 
-		Scroll basicAttack = new Scroll(0.2, 5, 2, "Sword Slash");
-		Scroll swordCharge = new Scroll(0.4, 20, 8, "Sword Charge");
-		Scroll preciseStrike = new Scroll(0, 10, 2, "Precise Strike");
-		Scroll wildSwing = new Scroll(0.5, 5, 4, "Wild Swing");
-		Scroll dragonStrike = new Scroll(0, 30, 8, "Dragon Strike");
+		Scroll basicAttack = new Scroll(0.2, 5, 2, "Sword Slash", 0, true);
+		Scroll swordCharge = new Scroll(0.4, 20, 8, "Sword Charge", 0, true);
+		Scroll preciseStrike = new Scroll(0, 10, 2, "Precise Strike", 0, true);
+		Scroll wildSwing = new Scroll(0.5, 5, 4, "Wild Swing", 0, true);
+		Scroll dragonStrike = new Scroll(0, 30, 8, "Dragon Strike", 0, true);
 
 
 		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
 		basicAttack.acquire();
-		scrollInventory.addScroll(swordCharge);
+		scrollsOwned.addScroll(swordCharge);
 		swordCharge.acquire();
+
+		scrollInventory purchasableScrolls = new scrollInventory(preciseStrike);
+		purchasableScrolls.addScroll(wildSwing);
+		purchasableScrolls.addScroll(dragonStrike);
+
 
 		Scanner input = new Scanner(System.in);
 
@@ -125,7 +130,7 @@ public class Main
 				else if (decFloor == 10)
 				{
 					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
-					p1 = floorShop(p1);
+					p1 = floorShop(p1, scrollsOwned, purchasableScrolls);
 					decFloor = 1;
 
 				}
@@ -416,7 +421,7 @@ public class Main
 				Scroll checkEnergy = s1.chooseScroll(userChoice);
 				if (p1.getEnergy() > checkEnergy.getEnergyCost())
 				{
-					double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getAttack() / 2) * getRandomInt(1, 3);
+					double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getAttack() / 2) + (1 * getRandomInt(1, 4));
 					if (scrollFormula == 0)
 					{
 						System.out.println("Your attack missed!");
@@ -482,7 +487,7 @@ public class Main
 			System.out.println("It is the enemy's turn.");
 			System.out.println("...");
 			TimeUnit.SECONDS.sleep(1);
-			double decimalEnemyDamage = (e1.getAttack() / 2) * getRandomInt(1, 3);
+			double decimalEnemyDamage = (e1.getAttack() / 2) + (1 *  getRandomInt(1, 3));
 			decimalEnemyDamage -= p1.getDefense();
 			if (guardUp)
 			{
@@ -543,7 +548,7 @@ public class Main
 	Method to Call for Shop after Boss Fight
 	****************************************************************/
 
-	public static Player floorShop(Player p1) throws InterruptedException
+	public static Player floorShop(Player p1, scrollInventory s1, scrollInventory s2) throws InterruptedException
 	{
 		boolean stillShopping = true;
 		Scanner input = new Scanner(System.in);
@@ -617,6 +622,10 @@ public class Main
 					}
 				}
 			}
+			else if (userChoice == 4)
+			{
+				s1 = scrollFloorShop(p1, s1, s2);
+			}
 			else
 			{
 				System.out.println("...");
@@ -631,6 +640,48 @@ public class Main
 
 
 
+	}
+
+	public static scrollInventory scrollFloorShop(Player p1, scrollInventory s1, scrollInventory s2) throws InterruptedException
+	{
+		Scanner input = new Scanner(System.in);
+
+		for (int i = 1; i <= s1.getSize(); i++)
+		{
+			for (int j = 1; j <= s2.getSize(); j++)
+			{
+				if (s1.chooseScroll(i).getName().equals(s2.chooseScroll(j).getName()))
+				{
+					s2.removeScroll(s2.chooseScroll(j));
+				}
+			}
+			
+		}
+
+		Scroll randomScroll = s2.chooseScroll(getRandomInt(1, s2.getSize()));
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("'I'm selling " + randomScroll.getName() + " for 50 gold. Take it er' leave it.'");
+		System.out.println("Press 1 to purchase " + randomScroll.getName() + " or 2 to Quit.");
+
+		int userChoice = input.nextInt();
+		if (userChoice == 1)
+		{
+			if (p1.getGold() >= 50)
+			{
+				System.out.println("You bought " + randomScroll.getName() + "!");
+				s1.addScroll(randomScroll);
+				randomScroll.acquire();
+				p1.subtractGold(50);
+				System.out.println("You are now at " + p1.getGold() + " gold.");
+			}
+			else
+			{
+				System.out.println("Insufficient funds.");
+			}
+		}
+
+		return s1;
 	}
 
 	
@@ -710,6 +761,12 @@ public class Main
 			}
 		}
 		else if (playerNumber == 21)
+		{
+			System.out.println("You win!");
+			p1.addGold(20);
+			System.out.println("You are now at " + p1.getGold() + " gold.");
+		}
+		else if (gamblerNumber > 21)
 		{
 			System.out.println("You win!");
 			p1.addGold(20);

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class scrollInventory
 {
-	private static ArrayList<Scroll> inv;
+	private ArrayList<Scroll> inv;
 
 	public scrollInventory(Scroll x)
 	{
@@ -11,9 +11,19 @@ public class scrollInventory
 		inv = list;
 	}
 
-	public static void addScroll(Scroll x)
+	public void addScroll(Scroll x)
 	{
 		inv.add(x);
+	}
+
+	public void removeScroll(Scroll x)
+	{
+		inv.remove(x);
+	}
+
+	public int getSize()
+	{
+		return inv.size();
 	}
 
 	public void printScrolls()
