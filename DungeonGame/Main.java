@@ -552,9 +552,10 @@ public class Main
 	{
 		boolean stillShopping = true;
 		Scanner input = new Scanner(System.in);
-
+		
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
+		System.out.println("You encounter a shopkeeper carrying a cart of goods.");
 		System.out.println("'So you made it out alive, eh? Take a look at some of my merchandise so you can stay in one piece.'");
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
@@ -646,19 +647,21 @@ public class Main
 	{
 		Scanner input = new Scanner(System.in);
 
-		for (int i = 1; i <= s1.getSize(); i++)
+		for (int i = 1; i < s1.getSize(); i++)
 		{
-			for (int j = 1; j <= s2.getSize(); j++)
+			for (int j = 1; j < s2.getSize(); j++)
 			{
-				if (s1.chooseScroll(i).getName().equals(s2.chooseScroll(j).getName()))
+				Scroll x = s1.chooseScroll(i);
+				Scroll y = s2.chooseScroll(j);
+				if (x.getName().equals(y.getName()))
 				{
-					s2.removeScroll(s2.chooseScroll(j));
+					s2.removeScroll(y);
 				}
 			}
 			
 		}
 
-		Scroll randomScroll = s2.chooseScroll(getRandomInt(1, s2.getSize()));
+		Scroll randomScroll = s2.chooseScroll(getRandomInt(0, s2.getSize() - 1));
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
 		System.out.println("'I'm selling " + randomScroll.getName() + " for 50 gold. Take it er' leave it.'");
