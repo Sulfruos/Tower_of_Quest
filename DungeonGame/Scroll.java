@@ -6,9 +6,8 @@ public class Scroll
 	private int energyCost;
 	private int power;
 	private String name;
-	private boolean isOwned; //this will be used so duplicate attack scrolls aren't sold
 	private int iD; //switch statement in main code to be used for every support type scroll with a special effect
-	private boolean isAttackType; // support type scrolls have special effects, like restoring HP
+	private boolean isNormalType; // support type scrolls have special effects, like restoring HP
 
 	public Scroll(double a, int e, int p, String s, int d, boolean ia)
 	{
@@ -17,7 +16,7 @@ public class Scroll
 		power = p;
 		name = s;
 		iD = d;
-		isAttackType = ia;
+		isNormalType = ia;
 	}
 
 	public void setAccuracy(double amount)
@@ -60,14 +59,9 @@ public class Scroll
 		return name;
 	}
 
-	public void acquire()
-	{
-		isOwned = true;
-	}
-
 	public boolean getType()
 	{
-		return isAttackType;
+		return isNormalType;
 	}
 
 	public int getID()

@@ -6,7 +6,9 @@ public class Enemy
 	private double maxHealth;
 	private double health;
 	private int attack;
+	private double displayAttack;
 	private int defense;
+	private double displayDefense;
 	private int value;
 
 	public Enemy(int h, int a, int d, int v, String n)
@@ -33,6 +35,17 @@ public class Enemy
 	{
 		return attack;
 	}
+
+	public double getDisplayAttack()
+	{
+		return displayAttack;
+	}
+
+	public void setDisplayAttack(double amount)
+	{
+		displayAttack = amount;
+	}
+
 
 	public void atkUp(int amount)
 	{
@@ -67,6 +80,16 @@ public class Enemy
 	public int getDefense()
 	{
 		return defense;
+	}
+
+	public double getDisplayDefense()
+	{
+		return displayDefense;
+	}
+
+	public void setDisplayDefense(double amount)
+	{
+		displayDefense = amount;
 	}
 
 	public int getValue()

@@ -6,7 +6,9 @@ public class Player
 	private double maxHealth;
 	private double health;
 	private int attack;
+	private double displayAttack;
 	private int defense;
+	private double displayDefense;
 	private int maxEnergy;
 	private int energy;
 	private int gold;
@@ -18,7 +20,7 @@ public class Player
 		maxHealth = 100;
 		health = 100;
 		attack = 10;
-		defense = 10;
+		defense = 4;
 		maxEnergy = 100;
 		energy = 100;
 		gold = 0;
@@ -54,6 +56,16 @@ public class Player
 	public int getAttack()
 	{
 		return attack;
+	}
+
+	public double getDisplayAttack()
+	{
+		return displayAttack;
+	}
+
+	public void setDisplayAttack(double amount)
+	{
+		displayAttack = amount;
 	}
 
 	public void setMaxHp(int amount)
@@ -96,6 +108,16 @@ public class Player
 		return defense;
 	}
 
+	public double getDisplayDefense()
+	{
+		return displayDefense;
+	}
+
+	public void setDisplayDefense(double amount)
+	{
+		displayDefense = amount;
+	}
+
 	public int getEnergy()
 	{
 		return energy;
@@ -114,6 +136,11 @@ public class Player
 		{
 			energy = maxEnergy;
 		}
+	}
+
+	public void subtractEnergy(int amount)
+	{
+		energy -= amount;
 	}
 
 	public void addGold(int amount)
