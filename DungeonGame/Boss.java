@@ -1,6 +1,6 @@
 import java.lang.Math;
 
-public class Enemy
+public class Boss
 {
 	private String name;
 	private double maxHealth;
@@ -9,15 +9,17 @@ public class Enemy
 	private double displayAttack;
 	private int defense;
 	private double displayDefense;
+	private double mana;
 	private int value;
 
-	public Enemy(int h, int a, int d, int v, String n)
+	public Enemy(int h, int a, int d, int v, int m, String n)
 	{
 		maxHealth = h;
 		health = h;
 		attack = a;
 		defense = d;
 		value = v;
+		mana = m;
 		name = n;
 	}
 
@@ -85,16 +87,18 @@ public class Enemy
 		return value;
 	}
 
-	public int getEnemyDamage()
+	public int getMana()
 	{
-		if (Math.random() > 0.1)
-		{
-			return attack;
-		}
-		else
-		{
-			return 0;
-		}
+		return mana;
 	}
+
+	public void subtractMana(int amount)
+	{
+		mana -= amount;
+	}
+
+	//TODO: mana based attacks that trigger at random if a certain condition is met 
+	//boss chosen to fight based on floor number, and prologue is offered using if statement that takes the number
+	//using specially defined boss scrolls might be helpful for choosing moves
 
 }

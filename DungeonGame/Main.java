@@ -20,26 +20,38 @@ public class Main
 		Player p1 = new Player();
 
 		Scroll basicAttack = new Scroll(0.2, 5, 2, "Sword Slash", 0, true);
-		Scroll swordCharge = new Scroll(0.4, 20, 6, "Sword Charge", 0, true);
-		Scroll preciseStrike = new Scroll(0, 10, 2, "Precise Strike", 0, true);
-		Scroll wildSwing = new Scroll(0.5, 5, 4, "Wild Swing", 0, true);
-		Scroll dragonStrike = new Scroll(0, 30, 8, "Dragon Strike", 0, true);
+		basicAttack.setDesc("A simple but reliable attack.");
+		Scroll sword_Charge = new Scroll(0.4, 20, 6, "Sword Charge", 0, true);
+		sword_Charge.setDesc("Riskily attacks the foe by lunging with the sword for high damage.");
+		Scroll precise_Strike = new Scroll(0, 10, 2, "Precise Strike", 0, true);
+		precise_Strike.setDesc("Aims for the perfect moment to strike with great accuracy.");
+		Scroll wild_Swing = new Scroll(0.5, 5, 4, "Wild Swing", 0, true);
+		wild_Swing.setDesc("Broadly swings at the foe for medium damage if it hits.");
+		Scroll dragon_Strike = new Scroll(0, 30, 8, "Dragon Strike", 0, true);
+		dragon_Strike.setDesc("Utilizes ancient technique to strike the foe with high power and accuracy.");
 		Scroll invigorate = new Scroll(0, 40, 0, "Invigorate", 1, false);
-		Scroll darkAura = new Scroll(0, 100, 0, "Dark Aura", 2, false);
+		invigorate.setDesc("Naturally flows chi through the body, restoring 10 HP.");
+		Scroll dark_Aura = new Scroll(0, 95, 0, "Dark Aura", 2, false);
+		dark_Aura.setDesc("Utilizes dark technique to double attack stat.");
 		Scroll bulwark = new Scroll(0, 30, 0, "Bulwark", 3, false);
+		bulwark.setDesc("Strengthens the body to increase defense by 25% and take 25% less damage on the turn used.");
 		Scroll skullCrack = new Scroll(0.4, 25, 5, "Skullcrack", 4, false);
+		skullCrack.setDesc("Riskily aims for the foe's head to deal medium damage and have a 50% chance to weaken them.");
+		Scroll shock_Palm = new Scroll(0.1, 15, 3, "Shock Palm", 5, false);
+		shock_Palm.setDesc("Quickly jabs the foe with the open hand. 20% chance to stun the foe.");
 
 
 		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
-		scrollsOwned.addScroll(swordCharge);
+		scrollsOwned.addScroll(sword_Charge);
+		scrollsOwned.addScroll(shock_Palm);
 
-		scrollInventory purchasableScrolls = new scrollInventory(preciseStrike);
-		purchasableScrolls.addScroll(wildSwing);
-		purchasableScrolls.addScroll(dragonStrike);
+		scrollInventory purchasableScrolls = new scrollInventory(precise_Strike);
+		purchasableScrolls.addScroll(wild_Swing);
+		purchasableScrolls.addScroll(dragon_Strike);
 		purchasableScrolls.addScroll(invigorate);
 		purchasableScrolls.addScroll(bulwark);
 		purchasableScrolls.addScroll(skullCrack);
-		purchasableScrolls.addScroll(darkAura);
+		purchasableScrolls.addScroll(dark_Aura);
 
 
 		Scanner input = new Scanner(System.in);
@@ -88,6 +100,7 @@ public class Main
 		****************************************************************/
 
 		int decFloor = 1;
+		int bossNumber = 1; // increments every ten floors, a boss is called for floor
 
 		for (int i = 1; i < 100; i++)
 		{
@@ -103,7 +116,7 @@ public class Main
 				}
 				else if (decFloor == 2)
 				{
-					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+					p1 = getEvent(getRandomInt(1, 9), p1, scrollsOwned, purchasableScrolls); // 2, 5 ,9
 				}
 				else if (decFloor == 3)
 				{
@@ -115,7 +128,7 @@ public class Main
 				}
 				else if (decFloor == 5)
 				{
-					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+					p1 = getEvent(getRandomInt(1, 9), p1, scrollsOwned, purchasableScrolls); // 2, 5 ,9
 				}
 				else if (decFloor == 6)
 				{
@@ -131,11 +144,11 @@ public class Main
 				}
 				else if (decFloor == 9)
 				{
-					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+					p1 = getEvent(getRandomInt(1, 9), p1, scrollsOwned, purchasableScrolls); // 2, 5 ,9
 				}
 				else if (decFloor == 10)
 				{
-					p1 = getEvent(getRandomInt(1, 7), p1, scrollsOwned); // 2, 5 ,9
+					p1 = getEvent(getRandomInt(1, 9), p1, scrollsOwned, purchasableScrolls); // 2, 5 ,9
 					p1 = floorShop(p1, scrollsOwned, purchasableScrolls);
 					decFloor = 1;
 
@@ -152,7 +165,7 @@ public class Main
 	Method to Call for Random Encounters
 	****************************************************************/
 
-	public static Player getEvent(int selection, Player p1, scrollInventory s) throws InterruptedException
+	public static Player getEvent(int selection, Player p1, scrollInventory s1, scrollInventory s2) throws InterruptedException
 	{
 		if (selection == 1) // Healing Fountain Event
 		{
@@ -176,8 +189,8 @@ public class Main
 					System.out.println("THONK THONK...");
 					TimeUnit.SECONDS.sleep(1);
 					System.out.println("You dig the rock and find a precious gold nugget as the source of its' pretty light.");
-					System.out.println("You gain 8 gold!");
-					p1.addGold(8);
+					System.out.println("You gain 10 gold!");
+					p1.addGold(10);
 					System.out.println("You are now at " + p1.getGold() + " gold.");
 				}
 				else
@@ -186,8 +199,8 @@ public class Main
 					TimeUnit.SECONDS.sleep(1);
 					System.out.println("That wasn't just any rock...");
 					System.out.println("It's a Rockalyte! And it's angry!");
-					Enemy Rockalyte = new Enemy(50, 5, 15, 10, "Rockalyte");
-					p1 = initiateFight(p1, Rockalyte, s);
+					Enemy Rockalyte = new Enemy(50, 5, 15, 15, "Rockalyte");
+					p1 = initiateFight(p1, Rockalyte, s1);
 				}
 			}
 			else
@@ -232,8 +245,8 @@ public class Main
 			if (userChoice == 'Y')
 			{
 				System.out.println("Without hesitation, the duelist laughes and lunges!");
-				Enemy Duelist = new Enemy(200, 15, 10, 35, "Duelist");
-				p1 = initiateFight(p1, Duelist, s);
+				Enemy Duelist = new Enemy(200, 15, 10, 40, "Duelist");
+				p1 = initiateFight(p1, Duelist, s1);
 			}
 			else
 			{
@@ -331,8 +344,54 @@ public class Main
 			}
 
 		}
+		else if (selection == 8) // Blacksmith Event
+		{
+			System.out.println("You stumble upon a man carrying an anvil and a hammer.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("'Ey, your equipment looks quite flimsy! I can make it better if you give me 8 gold!'");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("Accept his offer? Y/N");
+			Scanner input = new Scanner(System.in);
+			char userChoice = input.next().charAt(0);
+			if (userChoice == 'Y')
+			{
+				if (p1.getGold() >= 8)
+				{
+					System.out.println("...");
+					TimeUnit.SECONDS.sleep(1);
+					p1.atkUp(2);
+					p1.defUp(2);
+					p1.subtractGold(8);
+					System.out.println("The blacksmith shines your sword and sturdies your shield. You are now at " + p1.getAttack() + " attack and " + p1.getDefense() + " defense!");
+				}
+				else
+				{
+					System.out.println("...");
+					TimeUnit.SECONDS.sleep(1);
+					System.out.println("'No gold eh? A bummer.'");
+				}
+			}
+			else
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("'No gold eh? A bummer.'");
+			}
+				
+
+		}
+		else if (selection == 9)
+		{
+			System.out.println("You stumble upon a mysterious vendor holding a stuffed satchel.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			s1 = scrollVendor(p1, s1, s2);
+		}
 
 		return p1;
+		
 
 	}
 
@@ -340,17 +399,17 @@ public class Main
 	Methods to Call for Random Fights with Basic Enemies
 	****************************************************************/
 
-	public static Player setUpFight(int selection, Player p1, scrollInventory s1) throws InterruptedException
+	public static Player setUpFight(int selection, Player p1, scrollInventory s1) throws InterruptedException //bosses: similar system, but they have special attacks
 	{
-		Enemy Ogre = new Enemy(40, 6, 7, 7, "Ogre");
+		Enemy Ogre = new Enemy(40, 6, 7, 8, "Ogre");
 		Enemy Bat = new Enemy(20, 5, 3, 4, "Bat");
 		Enemy Golem = new Enemy(70, 2, 8, 7, "Golem");
 		Enemy Elemental = new Enemy(25, 12, 2, 6, "Elemental");
-		Enemy Feral = new Enemy(50, 5, 5, 5, "Feral");
-		Enemy Sorcerer = new Enemy(40, 9, 4, 8, "Sorcerer");
+		Enemy Feral = new Enemy(50, 5, 5, 7, "Feral");
+		Enemy Sorcerer = new Enemy(40, 9, 4, 9, "Sorcerer");
 		Enemy Fallen = new Enemy(80, 10, 5, 15, "Fallen");
 		Enemy EyeEye = new Enemy(30, 6, 6, 6, "EyeEye");
-		Enemy Slime = new Enemy(25, 2, 4, 2, "Slime");
+		Enemy Slime = new Enemy(25, 2, 4, 3, "Slime");
 
 		if (selection == 1)
 		{
@@ -402,6 +461,7 @@ public class Main
 
 		boolean stillFighting = true;
 		boolean guardUp = false; // used to check if player guarded this turn
+		boolean isStunned = false; //used to check if enemy is stunned by an attack
 		Scanner input = new Scanner(System.in);
 
 		boolean playerWins = false;
@@ -500,6 +560,43 @@ public class Main
 							}
 							
 						}
+						else if (chosenMove.getID() == 5)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - e1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 4);
+								if (roundedPlayerDamage > 0)
+								{
+									e1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
+									if (e1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										e1.hpDown(1);
+									
+								}
+								if (getRandomInt(1, 5) > 4)
+								{
+									System.out.println("Your attack is so sharp and surprising that it stuns the foe!");
+									
+								}
+
+							}
+						}
 					}
 					else
 					{
@@ -568,39 +665,48 @@ public class Main
 			}
 			
 			// Enemy turn
-
-			System.out.println("It is the enemy's turn.");
-			System.out.println("...");
-			TimeUnit.SECONDS.sleep(1);
-			double decimalEnemyDamage = (e1.getDisplayAttack() / 2) + getRandomInt(0, 4);
-			decimalEnemyDamage -= (p1.getDisplayDefense() / 2);
-			if (guardUp)
+			if (isStunned)
 			{
-				decimalEnemyDamage /= 4;
-				decimalEnemyDamage *= 3;
-			}
-			int roundedEnemyDamage = (int) decimalEnemyDamage;
-			if (roundedEnemyDamage > 0)
-			{
-				System.out.println(e1.getName() + " attacks you for " + roundedEnemyDamage + " damage.");
-				p1.hpDown(roundedEnemyDamage);
-				System.out.println("You are now at " + p1.getHealth() + " health.");
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("The enemy is stunned and can't act this turn!");
 			}
 			else
 			{
-				System.out.println("Your defense was too strong for the enemy's attack! It only did 1 damage!");
-				p1.hpDown(1);
-				System.out.println("You are now at " + p1.getHealth() + " health.");
+				System.out.println("It is the enemy's turn.");
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				double decimalEnemyDamage = (e1.getDisplayAttack() / 2) + getRandomInt(0, 4);
+				decimalEnemyDamage -= (p1.getDisplayDefense() / 2);
+				if (guardUp)
+				{
+					decimalEnemyDamage /= 4;
+					decimalEnemyDamage *= 3;
+				}
+				int roundedEnemyDamage = (int) decimalEnemyDamage;
+				if (roundedEnemyDamage > 0)
+				{
+					System.out.println(e1.getName() + " attacks you for " + roundedEnemyDamage + " damage.");
+					p1.hpDown(roundedEnemyDamage);
+					System.out.println("You are now at " + p1.getHealth() + " health.");
+				}
+				else
+				{
+					System.out.println("Your defense was too strong for the enemy's attack! It only did 1 damage!");
+					p1.hpDown(1);
+					System.out.println("You are now at " + p1.getHealth() + " health.");
+				}
+				
+				
+
+				if (p1.getHealth() <= 0)
+				{
+					stillFighting = false;
+					enemyWins = true;
+				}
+
 			}
 			
-			
-
-			if (p1.getHealth() <= 0)
-			{
-				stillFighting = false;
-				enemyWins = true;
-			}
-
 
 		}
 
@@ -723,13 +829,16 @@ public class Main
 			}
 			else
 			{
-				System.out.println("...");
-				TimeUnit.SECONDS.sleep(1);
-				System.out.println("'Aight kid, break a leg!'");
+
 				stillShopping = false;
 			} 
 		}
 
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("After you do business, the shopkeeper offers you to drink with him. \n The rum refreshes you, and you restore 25 HP and are back to full energy!");
+		p1.hpUp(25);
+		p1.energyUp(100);
 		return p1;
 		
 
@@ -759,6 +868,7 @@ public class Main
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
 		System.out.println("'I'm selling " + randomScroll.getName() + " for 50 gold. Take it er' leave it.'");
+		randomScroll.getDesc();
 		System.out.println("Press 1 to purchase " + randomScroll.getName() + " or 2 to Quit.");
 
 		int userChoice = input.nextInt();
@@ -779,6 +889,57 @@ public class Main
 
 		return s1;
 	}
+
+	public static scrollInventory scrollVendor(Player p1, scrollInventory s1, scrollInventory s2) throws InterruptedException
+	{
+		Scanner input = new Scanner(System.in);
+
+		for (int i = 1; i < s1.getSize(); i++)
+		{
+			for (int j = 1; j < s2.getSize(); j++)
+			{
+				Scroll x = s1.chooseScroll(i);
+				Scroll y = s2.chooseScroll(j);
+				if (x.getName().equals(y.getName()))
+				{
+					s2.removeScroll(y);
+				}
+			}
+			
+		}
+
+		Scroll randomScroll = s2.chooseScroll(getRandomInt(0, s2.getSize() - 1));
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("'Hmm, an adventurer? You may find this technique quite helpful for whatever your purpose may be.'");
+		randomScroll.getDesc();
+		System.out.println("Press 1 to purchase " + randomScroll.getName() + " or 2 to Reject the Vendor's offer.");
+
+		int userChoice = input.nextInt();
+		if (userChoice == 1)
+		{
+			if (p1.getGold() >= 30)
+			{
+				System.out.println("You bought " + randomScroll.getName() + "!");
+				s1.addScroll(randomScroll);
+				p1.subtractGold(30);
+				System.out.println("You are now at " + p1.getGold() + " gold.");
+			}
+			else
+			{
+				System.out.println("Insufficient funds.");
+			}
+		}
+		else
+		{
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("'A pity. Truely.'");
+		}
+
+		return s1;
+	}
+
 
 	
 
