@@ -112,6 +112,7 @@ public class Main
 				TimeUnit.SECONDS.sleep(1);
 				if (decFloor == 1)
 				{
+					p1 = setUpBossFight(1, p1, scrollsOwned);
 					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
 				}
 				else if (decFloor == 2)
@@ -148,8 +149,8 @@ public class Main
 				}
 				else if (decFloor == 10)
 				{
-					p1 = getEvent(getRandomInt(1, 9), p1, scrollsOwned, purchasableScrolls); // 2, 5 ,9
 					p1 = floorShop(p1, scrollsOwned, purchasableScrolls);
+					p1 = setUpBossFight(1, p1, scrollsOwned);
 					decFloor = 1;
 
 				}
@@ -728,11 +729,370 @@ public class Main
 	/****************************************************************
 	Method to Call for Fights with Bosses
 	****************************************************************/
-/*
-	public Player initiateBossFight(int selection, Player p1, Boss b1)
+
+	public static Player setUpBossFight(int selection, Player p1, scrollInventory s1) throws InterruptedException
 	{
-		//Boss Idea: Anubis (Floor 10)
-		// - Attacks: Basic Attack, Rend Soul (deals damage that ignores DEF and heals for 50%), Emanate (gains Attack and Defense)
+
+		Boss Anubis = new Boss(100, 6, 9, 25, 20, "Anubis");
+		Spell emanate = new Spell(0, 7, 0, "Emanate", 1);
+		Spell soul_Eater = new Spell(0.2, 6, 1.2, "Soul Eater", 2);
+		bossAttacks a1 = new bossAttacks(emanate);
+		a1.addAttack(soul_Eater);
+
+		if (selection == 1)
+		{
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("As you reach the 10th floor of the tower, you stumble upon a towering jackal-headed figure standing at the door.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("'Traveler, this dungeon is dangerous. And since you haven't turned back yet, I will have to show you how dangerous!'");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			initiateBossFight(p1, Anubis, a1, s1);
+		}
+
+		return p1;
+	}
+
+
+	public static Player initiateBossFight(Player p1, Boss b1, bossAttacks a1, scrollInventory s1) throws InterruptedException
+	{
+
+		System.out.println("You face " + b1.getName() + "!");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+
+		boolean stillFighting = true;
+		boolean guardUp = false; // used to check if player guarded this turn
+		boolean isStunned = false; //used to check if enemy is stunned by an attack
+		Scanner input = new Scanner(System.in);
+
+		boolean playerWins = false;
+		boolean enemyWins = false;
+		
+		p1.setDisplayAttack(p1.getAttack());
+		p1.setDisplayDefense(p1.getDefense());
+
+		b1.setDisplayAttack(b1.getAttack());
+		b1.setDisplayDefense(b1.getDefense());
+
+		while (stillFighting)
+		{
+			// Player turn 
+
+			System.out.println("You have " + p1.getHealth() + " HP and " + p1.getEnergy() + " energy remaining.");
+			System.out.println("The enemy is at " + b1.getHealth() + " health.");
+			System.out.println("Choose an action.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("Attack(1), Guard(2), Items(3)");
+			int userChoice = input.nextInt();
+			if (userChoice == 1)
+			{
+				System.out.println("Choose an attack.");
+				s1.printScrolls();
+				userChoice = input.nextInt();
+				Scroll chosenMove = s1.chooseScroll(userChoice);
+				if (p1.getEnergy() >= chosenMove.getEnergyCost())
+				{
+
+					if (chosenMove.getType() == false)
+					{
+						if (chosenMove.getID() == 1)
+						{
+							p1.subtractEnergy(chosenMove.getEnergyCost());
+							System.out.println("You channel your energy into your chi, letting it flow through you and restoring 10 HP.");
+							p1.hpUp(10);
+							System.out.println("You are now at " + p1.getHealth() + " health.");
+						}
+						else if (chosenMove.getID() == 2)
+						{
+							p1.subtractEnergy(chosenMove.getEnergyCost());
+							System.out.println("You feel a dark aura encompassing you. Your Attack increases by 100%.");
+							int roundAttack = (int) (p1.getDisplayAttack() * 2);
+							p1.setDisplayAttack(roundAttack);
+
+							System.out.println("Your attack is now " + p1.getDisplayAttack() + ".");
+						}
+						else if (chosenMove.getID() == 3)
+						{
+							p1.subtractEnergy(chosenMove.getEnergyCost());
+							System.out.println("You feel your chest harden to the quality of stone. Your Defense increases by 25% and you reduce damage taken this turn by 25%.");
+							int roundDefense = (int) (p1.getDisplayDefense() * 1.25);
+							p1.setDisplayDefense(roundDefense);
+							System.out.println("Your defense is now " + p1.getDisplayDefense() + ".");
+							guardUp = true;
+						}
+						else if (chosenMove.getID() == 4)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - b1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 4);
+								if (roundedPlayerDamage > 0)
+								{
+									b1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + b1.getHealth() + " health.");
+									if (b1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										b1.hpDown(1);
+									
+								}
+								if (getRandomInt(1, 4) > 2)
+								{
+									System.out.println("The concussive power of Skullcrack caused your opponent to lose 20% Attack and Defense!");
+									int roundEnemyAttack1 = (int) (p1.getDisplayAttack() * 0.8);
+									b1.setDisplayAttack(roundEnemyAttack1);
+									int roundEnemyDefense1 = (int) (p1.getDisplayDefense() * 0.8);
+									b1.setDisplayDefense(roundEnemyDefense1);
+								}
+							}
+							
+						}
+						else if (chosenMove.getID() == 5)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - b1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 4);
+								if (roundedPlayerDamage > 0)
+								{
+									b1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + b1.getHealth() + " health.");
+									if (b1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										b1.hpDown(1);
+									
+								}
+								if (getRandomInt(1, 5) > 4)
+								{
+									System.out.println("Your attack is so sharp and surprising that it stuns the foe!");
+									
+								}
+
+							}
+						}
+					}
+					else
+					{
+						double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+						if (scrollFormula == 0)
+						{
+							System.out.println("Your attack missed!");
+						}
+						else
+						{
+							double decimalPlayerDamage = scrollFormula - b1.getDisplayDefense();
+							int roundedPlayerDamage = (int) decimalPlayerDamage;
+							roundedPlayerDamage += getRandomInt(1, 4);
+							if (roundedPlayerDamage > 0)
+							{
+								b1.hpDown(roundedPlayerDamage);
+								System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + b1.getHealth() + " health.");
+								if (b1.getHealth() <= 0)
+								{
+									stillFighting = false;
+									playerWins = true;
+								}
+							}
+							else
+							{
+								
+									System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+									b1.hpDown(1);
+								
+							}
+						}
+					}
+					
+				}
+				else
+				{
+					System.out.println("Not enough energy!");
+				}
+				
+				
+				
+			}
+			else if (userChoice == 2)
+			{
+				System.out.println("You guard this turn, restoring 10 energy and reducing damage taken by 25%.");
+				p1.energyUp(10);
+				guardUp = true;
+			}
+			else
+			{
+				if (p1.potCount() > 0)
+				{
+					System.out.println("HEALTH POTIONS: " + p1.potCount());
+					System.out.println("Press 1 to use a Health Potion or 2 to Quit");
+					userChoice = input.nextInt();
+					if (userChoice == 1)
+					{
+						p1.usePot();
+					}
+
+				}
+				else
+				{
+					System.out.println("Your bag is empty!");
+				}
+			}
+			
+			// Boss turn
+			if (isStunned)
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("The enemy is stunned and can't act this turn!");
+			}
+			else
+			{
+				System.out.println("It is the enemy's turn.");
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+
+				if (b1.getMana() > 0)
+				{
+					int rando = getRandomInt(1, 4);
+					if (rando > 2)
+					{
+						double decimalBossDamage = (b1.getDisplayAttack() / 2) + getRandomInt(0, 4);
+						decimalBossDamage -= (p1.getDisplayDefense() / 2);
+						if (guardUp)
+						{
+							decimalBossDamage /= 4;
+							decimalBossDamage *= 3;
+						}
+						int roundedBossDamage = (int) decimalBossDamage;
+						if (roundedBossDamage > 0)
+						{
+							System.out.println(b1.getName() + " attacks you for " + roundedBossDamage + " damage.");
+							p1.hpDown(roundedBossDamage);
+							System.out.println("You are now at " + p1.getHealth() + " health.");
+						}
+						else
+						{
+							System.out.println("Your defense was too strong for the enemy's attack! It only did 1 damage!");
+							p1.hpDown(1);
+							System.out.println("You are now at " + p1.getHealth() + " health.");
+						}
+						
+						
+
+						if (p1.getHealth() <= 0)
+						{
+							stillFighting = false;
+							enemyWins = true;
+						}
+					}
+					else
+					{
+						Spell randomAttack = a1.chooseAttack(getRandomInt(0, a1.getSize() - 1));
+						if (randomAttack.getID() == 1)
+						{
+							b1.subtractMana(randomAttack.getManaCost());
+							System.out.println(b1.getName() + " exerted a powerful aura, increasing its' Attack and Defense by 40%! ");
+							b1.setDisplayDefense(b1.getDisplayDefense() * 1.4);
+							b1.setDisplayAttack(b1.getDisplayAttack() * 1.4);
+
+						}
+						else if (randomAttack.getID() == 2)
+						{
+							b1.subtractMana(randomAttack.getManaCost());
+							double decimalBossDamage = (b1.getDisplayAttack() / 2) + getRandomInt(0, 4);
+							int roundedBossDamage = (int) decimalBossDamage;
+							System.out.println(b1.getName() + " attacks you through ripping a shard of your soul out, striking through your defense and dealing " + roundedBossDamage + " damage!");
+							p1.hpDown(roundedBossDamage);
+							System.out.println("You are now at " + p1.getHealth() + " health.");
+							int bossHeal = roundedBossDamage / 2;
+							System.out.println(b1.getName() + " also absorbs 50% of the damage it did and restores " + bossHeal + " health.");
+							b1.hpUp(bossHeal);
+							System.out.println(b1.getName() + " is now at " + b1.getHealth() + " health.");
+						}
+
+					}
+
+				}
+				else
+				{
+					double decimalBossDamage = (b1.getDisplayAttack() / 2) + getRandomInt(0, 4);
+					decimalBossDamage -= (p1.getDisplayDefense() / 2);
+					if (guardUp)
+					{
+						decimalBossDamage /= 4;
+						decimalBossDamage *= 3;
+					}
+					int roundedBossDamage = (int) decimalBossDamage;
+					if (roundedBossDamage > 0)
+					{
+						System.out.println(b1.getName() + " attacks you for " + roundedBossDamage + " damage.");
+						p1.hpDown(roundedBossDamage);
+						System.out.println("You are now at " + p1.getHealth() + " health.");
+					}
+					else
+					{
+						System.out.println("Your defense was too strong for the enemy's attack! It only did 1 damage!");
+						p1.hpDown(1);
+						System.out.println("You are now at " + p1.getHealth() + " health.");
+					}
+					
+					
+
+					if (p1.getHealth() <= 0)
+					{
+						stillFighting = false;
+						enemyWins = true;
+					}
+				}
+
+			}
+
+		}
+
+		if (playerWins)
+		{
+			p1.addGold(b1.getValue());
+			p1.energyUp(100);
+			p1.hpUp(50);
+			System.out.println("You win! You gain " + b1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
+
+			return p1;
+		}
+		else
+		{
+			loseGame(p1);
+			return p1;
+		}
 	}
 
 	/****************************************************************

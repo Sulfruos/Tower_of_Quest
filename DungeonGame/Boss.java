@@ -9,10 +9,10 @@ public class Boss
 	private double displayAttack;
 	private int defense;
 	private double displayDefense;
-	private double mana;
+	private int mana;
 	private int value;
 
-	public Enemy(int h, int a, int d, int v, int m, String n)
+	public Boss(int h, int a, int d, int v, int m, String n)
 	{
 		maxHealth = h;
 		health = h;
