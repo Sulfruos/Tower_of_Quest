@@ -5,8 +5,8 @@ a flawless combat system all in text!
 
 In the future, once I have developed the first version of the game, I plan to add to it through
 creating more encounters, enemies, and revamping the combat system through introducing more 
-"dimensions" of combat (i.e status conditions and spells casted using a different resource, mana).
+"dimensions" of combat (i.e multiple enemies at once, different character classes).
 Perhaps I could even use JavaFX or Processing to transcend this game from text based, but then it 
 may lose its' indie old-school dungeon runner feel. 
 
-Currently, the game has all of the structure made. Random events and random encounters against enemies are finished, and the baseline for scroll collection has also been implemented through using an ArrayList. Along with this, the main floor shop every that pops up every ten floors has been implemented, and it even allows the player to purchase a random Scroll to add to their attacks! I plan on adding boss fights and vendors for both scrolls and items in order to bring more dimension to the game. I may even add some good old sound effects (but will remove them if they don't add to the feel) !
+Currently, the game is essentially finished (at least text-based wise)! I just need to make it more user-friendly and crack down on a few bugs which I can learn through playtesting. I look forward to continuing with this project.
