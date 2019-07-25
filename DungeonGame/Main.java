@@ -21,24 +21,28 @@ public class Main
 
 		Scroll basicAttack = new Scroll(0.2, 5, 2, "Sword Slash", 0, true);
 		basicAttack.setDesc("A simple but reliable attack.");
-		Scroll sword_Charge = new Scroll(0.4, 20, 6, "Sword Charge", 0, true);
+		Scroll sword_Charge = new Scroll(0.4, 20, 5, "Sword Charge", 0, true);
 		sword_Charge.setDesc("Riskily attacks the foe by lunging with the sword for high damage.");
-		Scroll precise_Strike = new Scroll(0, 10, 2, "Precise Strike", 0, true);
+		Scroll precise_Strike = new Scroll(0, 10, 3, "Precise Strike", 0, true);
 		precise_Strike.setDesc("Aims for the perfect moment to strike with great accuracy.");
 		Scroll wild_Swing = new Scroll(0.5, 5, 4, "Wild Swing", 0, true);
 		wild_Swing.setDesc("Broadly swings at the foe for medium damage if it hits.");
-		Scroll dragon_Strike = new Scroll(0, 30, 8, "Dragon Strike", 0, true);
+		Scroll dragon_Strike = new Scroll(0, 30, 6, "Dragon Strike", 0, true);
 		dragon_Strike.setDesc("Utilizes ancient technique to strike the foe with high power and accuracy.");
 		Scroll invigorate = new Scroll(0, 40, 0, "Invigorate", 1, false);
-		invigorate.setDesc("Naturally flows chi through the body, restoring 10 HP.");
-		Scroll dark_Aura = new Scroll(0, 95, 0, "Dark Aura", 2, false);
+		invigorate.setDesc("Naturally flows chi through the body, restoring 12 HP.");
+		Scroll dark_Aura = new Scroll(0, 80, 0, "Dark Aura", 2, false);
 		dark_Aura.setDesc("Utilizes dark technique to double attack stat.");
 		Scroll bulwark = new Scroll(0, 30, 0, "Bulwark", 3, false);
 		bulwark.setDesc("Strengthens the body to increase defense by 25% and take 25% less damage on the turn used.");
-		Scroll skullCrack = new Scroll(0.4, 25, 5, "Skullcrack", 4, false);
-		skullCrack.setDesc("Riskily aims for the foe's head to deal medium damage and have a 50% chance to weaken them.");
+		Scroll skullCrack = new Scroll(0.4, 25, 4, "Skullcrack", 4, false);
+		skullCrack.setDesc("Riskily aims for the foe's head to deal damage and has a 50% chance to weaken them.");
 		Scroll shock_Palm = new Scroll(0.1, 15, 3, "Shock Palm", 5, false);
 		shock_Palm.setDesc("Quickly jabs the foe with the open hand. 20% chance to stun the foe.");
+		Scroll all_or_nothing = new Scroll(0, 60, 7, "All or Nothing", 6, false);
+		all_or_nothing.setDesc("Attacks with great energy, dealing high damage and stunning foe.");
+		Scroll arcane_Bolt = new Scroll(0.2, 20, 0, "Arcane Bolt", 7, false);
+		arcane_Bolt.setDesc("Shoots a mystical bolt at the foe that always does 10 damage.");
 
 
 		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
@@ -52,6 +56,8 @@ public class Main
 		purchasableScrolls.addScroll(bulwark);
 		purchasableScrolls.addScroll(skullCrack);
 		purchasableScrolls.addScroll(dark_Aura);
+		purchasableScrolls.addScroll(all_or_nothing);
+		purchasableScrolls.addScroll(arcane_Bolt);
 
 
 		Scanner input = new Scanner(System.in);
@@ -150,7 +156,7 @@ public class Main
 				{
 					p1 = floorShop(p1, scrollsOwned, purchasableScrolls);
 					p1 = setUpBossFight(bossNumber, p1, scrollsOwned);
-					decFloor = 1;
+					decFloor = 0;
 					bossNumber++;
 
 				}
@@ -246,7 +252,7 @@ public class Main
 			if (userChoice == 'Y')
 			{
 				System.out.println("Without hesitation, the duelist laughes and lunges!");
-				Enemy Duelist = new Enemy(200, 15, 10, 40, "Duelist");
+				Enemy Duelist = new Enemy(150, 15, 10, 40, "Duelist");
 				p1 = initiateFight(p1, Duelist, s1);
 			}
 			else
@@ -350,7 +356,7 @@ public class Main
 			System.out.println("You stumble upon a man carrying an anvil and a hammer.");
 			System.out.println("...");
 			TimeUnit.SECONDS.sleep(1);
-			System.out.println("'Ey, your equipment looks quite flimsy! I can make it better if you give me 8 gold!'");
+			System.out.println("'Ey, your equipment looks quite flimsy! I can make it better if you give me 12 gold!'");
 			System.out.println("...");
 			TimeUnit.SECONDS.sleep(1);
 			System.out.println("Accept his offer? Y/N");
@@ -358,13 +364,13 @@ public class Main
 			char userChoice = input.next().charAt(0);
 			if (userChoice == 'Y')
 			{
-				if (p1.getGold() >= 8)
+				if (p1.getGold() >= 12)
 				{
 					System.out.println("...");
 					TimeUnit.SECONDS.sleep(1);
 					p1.atkUp(2);
 					p1.defUp(2);
-					p1.subtractGold(8);
+					p1.subtractGold(12);
 					System.out.println("The blacksmith shines your sword and sturdies your shield. You are now at " + p1.getAttack() + " attack and " + p1.getDefense() + " defense!");
 				}
 				else
@@ -499,8 +505,8 @@ public class Main
 						if (chosenMove.getID() == 1)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							System.out.println("You channel your energy into your chi, letting it flow through you and restoring 10 HP.");
-							p1.hpUp(10);
+							System.out.println("You channel your energy into your chi, letting it flow through you and restoring 12 HP.");
+							p1.hpUp(12);
 							System.out.println("You are now at " + p1.getHealth() + " health.");
 						}
 						else if (chosenMove.getID() == 2)
@@ -597,6 +603,58 @@ public class Main
 									
 								}
 
+							}
+						}
+						else if (chosenMove.getID() == 6)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - e1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									e1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
+									
+									if (e1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										e1.hpDown(1);
+									
+								}
+
+								System.out.println("The attack was so devastating that the foe is stunned from its' force!");
+								isStunned = true;
+
+							}
+						}
+						else if (chosenMove.getID() == 7)
+						{
+							if (Math.random() < 0.2)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								System.out.println("The enemy took 10 damage from your attack and is now at " + e1.getHealth() + " health.");
+								if (e1.getHealth() <= 0)
+								{
+									stillFighting = false;
+									playerWins = true;
+								}
 							}
 						}
 					}
@@ -823,6 +881,9 @@ public class Main
 			initiateBossFight(p1, Petrallum, a5, s1, 0);
 		}
 
+		//Banshee Boss: Frostbite passive deals fixed damage every turn, Unwanted Control move uses players' attack stat to attack, and Aggravate does high damage but increases player attack
+		//Final Boss: Emperor Anubis - His passive is he gains 40% Attack and Defense when he falls under half HP, he uses first boss' attacks
+
 		return p1;
 	}
 
@@ -875,8 +936,8 @@ public class Main
 						if (chosenMove.getID() == 1)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							System.out.println("You channel your energy into your chi, letting it flow through you and restoring 10 HP.");
-							p1.hpUp(10);
+							System.out.println("You channel your energy into your chi, letting it flow through you and restoring 12 HP.");
+							p1.hpUp(12);
 							System.out.println("You are now at " + p1.getHealth() + " health.");
 						}
 						else if (chosenMove.getID() == 2)
@@ -975,6 +1036,58 @@ public class Main
 									
 								}
 
+							}
+						}
+						else if (chosenMove.getID() == 6)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - b1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									b1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + b1.getHealth() + " health.");
+									
+									if (b1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										b1.hpDown(1);
+									
+								}
+
+								System.out.println("The attack was so devastating that the foe is stunned from its' force!");
+								isStunned = true;
+
+							}
+						}
+						else if (chosenMove.getID() == 7)
+						{
+							if (Math.random() < 0.2)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								System.out.println("The enemy took 10 damage from your attack and is now at " + b1.getHealth() + " health.");
+								if (b1.getHealth() <= 0)
+								{
+									stillFighting = false;
+									playerWins = true;
+								}
 							}
 						}
 					}
@@ -1194,7 +1307,7 @@ public class Main
 							int roundedBossDamage = (int) decimalBossDamage;
 							if (roundedBossDamage > 0)
 							{
-								System.out.println(b1.getName() + " strikes right through you through making its' sword ethereal, ignoring your defense and dealing " + roundedBossDamage + ".");
+								System.out.println(b1.getName() + " strikes right through you by making its' sword ethereal, ignoring your defense and dealing " + roundedBossDamage + " damage.");
 								p1.hpDown(roundedBossDamage);
 								System.out.println("You are now at " + p1.getHealth() + " health.");
 							}
@@ -1216,9 +1329,11 @@ public class Main
 							int roundedBossDamage = (int) decimalBossDamage;
 							if (roundedBossDamage > 0)
 							{
-								System.out.println(b1.getName() + " strikes you with a purging flame that removes all of your stat changes and deals " + roundedBossDamage + ".");
+								System.out.println(b1.getName() + " strikes you with a purging flame that removes all of your stat changes and deals " + roundedBossDamage + " damage.");
 								p1.hpDown(roundedBossDamage);
-								System.out.println("You are now at " + p1.getHealth() + " health.");
+								p1.setDisplayDefense(p1.getDefense());
+								p1.setDisplayAttack(p1.getAttack());
+								System.out.println("You are now at " + p1.getHealth() + " health. You have " + p1.getDisplayAttack() + " attack and " + p1.getDisplayDefense() + " defense");
 							}
 							else
 							{
@@ -1304,9 +1419,11 @@ public class Main
 						else if (randomAttack.getID() == 9)
 						{
 							System.out.println("Petrallum crystallizes its' arms, gaining 40% Attack but lowering its' defense by 15%.");
-							int roundBossDefense = (int) (b1.getDisplayDefense() * 1.4);
-							b1.setDisplayDefense(roundBossDefense);
-							System.out.println("Petrallum now has " + b1.getDisplayDefense() + " defense and " + b1.getDisplayAttack() + " attack.");
+							int roundBossAttack3 = (int) (b1.getDisplayAttack() * 1.4);
+							b1.setDisplayAttack(roundBossAttack3);
+							int roundBossDefense3 = (int) (b1.getDisplayDefense() * 0.85);
+							b1.setDisplayDefense(roundBossDefense3);
+							System.out.println("Petrallum now has " + b1.getDisplayAttack() + " attack and " + b1.getDisplayDefense() + " defense.");
 						}
 						else if (randomAttack.getID() == 10)
 						{
@@ -1373,7 +1490,7 @@ public class Main
 			System.out.println("You win! You gain " + b1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
 			System.out.println("...");
 			TimeUnit.SECONDS.sleep(1);
-			System.out.println("You take the next day of your adventure off to recover, and restore 50 HP.");
+			System.out.println("You take the next day of your adventure off to recover from the intense fight, restoring 50 HP and 100 energy.");
 
 			return p1;
 		}
@@ -1426,7 +1543,7 @@ public class Main
 			}
 			else if (userChoice == 2)
 			{
-				System.out.println("ATTACK UPGRADE: INCREASES MAX ATTACK BY 3. SHARPEN THAT SWORD! 10 GOLD PER SHINE.");
+				System.out.println("ATTACK UPGRADE: INCREASES MAX ATTACK BY 2. SHARPEN THAT SWORD! 10 GOLD PER SHINE.");
 				System.out.println("Press 1 to buy Attack Upgrade or 2 to Go back to menu.");
 				userChoice = input.nextInt();
 				if (userChoice == 1)
@@ -1434,7 +1551,7 @@ public class Main
 					if (p1.getGold() >= 10)
 					{
 						System.out.println("You bought an Attack Upgrade!");
-						p1.atkUp(3);
+						p1.atkUp(2);
 						p1.subtractGold(10);
 						System.out.println("You are now at " + p1.getGold() + " gold.");
 					}
@@ -1446,7 +1563,7 @@ public class Main
 			}
 			else if (userChoice == 3)
 			{
-				System.out.println("DEFENSE UPGRADE: INCREASES MAX DEFENSE BY 3. MAKE 'EM HATE YOU! 10 GOLD PER FORTIFICATION.");
+				System.out.println("DEFENSE UPGRADE: INCREASES MAX DEFENSE BY 2. MAKE 'EM HATE YOU! 10 GOLD PER FORTIFICATION.");
 				System.out.println("Press 1 to buy Defense Upgrade or 2 to Go back to menu.");
 				userChoice = input.nextInt();
 				if (userChoice == 1)
@@ -1454,7 +1571,7 @@ public class Main
 					if (p1.getGold() >= 10)
 					{
 						System.out.println("You bought a Defense Upgrade!");
-						p1.defUp(3);
+						p1.defUp(2);
 						p1.subtractGold(10);
 						System.out.println("You are now at " + p1.getGold() + " gold.");
 					}
@@ -1485,9 +1602,9 @@ public class Main
 
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
-		System.out.println("After you do business, the shopkeeper offers you to drink with him. \nThe rum refreshes you, and you restore 25 HP and are back to full energy!");
+		System.out.println("After you do business, the shopkeeper offers you to drink with him. \nThe rum refreshes you, and you restore 25 HP and 50 energy!");
 		p1.hpUp(25);
-		p1.energyUp(100);
+		p1.energyUp(50);
 		return p1;
 		
 
@@ -1561,6 +1678,8 @@ public class Main
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
 		System.out.println("'Hmm, an adventurer? You may find this technique quite helpful for whatever your purpose may be.'");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
 		randomScroll.getDesc();
 		System.out.println("Press 1 to purchase " + randomScroll.getName() + " or 2 to Reject the Vendor's offer.");
 
@@ -1641,7 +1760,7 @@ public class Main
 			}
 			if (gamblerNumber < 10)
 			{
-				int addition = getRandomInt(1, 13)
+				int addition = getRandomInt(1, 13);
 				visibleGamblerNumber += addition;
 				gamblerNumber += addition;
 				System.out.println("The gambler takes a card. His visible total is now " + visibleGamblerNumber + " points.");

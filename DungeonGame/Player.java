@@ -167,6 +167,7 @@ public class Player
 	{
 		healthPots--;
 		hpUp(30);
+		System.out.println("You drink the mysterious red liquid in the casket, and you feel invigorated. You restore 30 HP.");
 	}
 
 	public int potCount()
