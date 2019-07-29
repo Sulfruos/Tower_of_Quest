@@ -47,6 +47,7 @@ public class Main
 
 		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
 		scrollsOwned.addScroll(sword_Charge);
+		
 
 		scrollInventory purchasableScrolls = new scrollInventory(precise_Strike);
 		purchasableScrolls.addScroll(shock_Palm);
@@ -57,7 +58,7 @@ public class Main
 		purchasableScrolls.addScroll(skullCrack);
 		purchasableScrolls.addScroll(dark_Aura);
 		purchasableScrolls.addScroll(all_or_nothing);
-		purchasableScrolls.addScroll(arcane_Bolt);
+		scrollsOwned.addScroll(arcane_Bolt);
 
 
 		Scanner input = new Scanner(System.in);
@@ -94,12 +95,7 @@ public class Main
 		System.out.println("*     *  *    *  *          *     *   ");
 		System.out.println(" ***** * ******  *****  *****     *   ");
 		System.out.println("...");
-		TimeUnit.SECONDS.sleep(1);
-		System.out.println("'Before we begin, what is your name?'");
-		p1.setName(input.next());
-		System.out.println("'Very well " + p1.getName() + ". It is time to ascend the Tower.'");
-		System.out.println("...");
-		TimeUnit.SECONDS.sleep(1);
+		TimeUnit.SECONDS.sleep(3);
 
 		/****************************************************************
 		Part 2: The Actual Game (calling methods for encounters/fights)
@@ -108,17 +104,18 @@ public class Main
 		int decFloor = 1;
 		int bossNumber = 1; // increments every ten floors, a boss is called for floor
 
-		for (int i = 1; i < 100; i++)
+		for (int i = 1; i < 71; i++)
 		{
 			if (p1.getStatus() == true)
 			{
-				System.out.println(p1.getName() + " has " + p1.getGold() + " gold, " + p1.getHealth() + " health, " + p1.getEnergy() + " energy, " + p1.getAttack() + " attack, and " + p1.getDefense() + " defense.");
+				System.out.println("The hero has " + p1.getGold() + " gold, " + p1.getHealth() + " health, " + p1.getEnergy() + " energy, " + p1.getAttack() + " attack, and " + p1.getDefense() + " defense.");
 				System.out.println("Floor: " + i);
 				System.out.println("...");
 				TimeUnit.SECONDS.sleep(1);
 				if (decFloor == 1)
 				{
 					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
+				
 				}
 				else if (decFloor == 2)
 				{
@@ -164,7 +161,34 @@ public class Main
 				decFloor++;
 
 			}
+
+			
 		}
+
+		if (p1.getStatus() == true)
+		{
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("Struggling to stay conscious, you move past the fallen Anubis towards the tressure.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("With joy, you grab it and instantly are turned to ash by a huge sun ray.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("You win... technically.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("Congrats! Game written and coded by Arvind Pillai.");
+		
+		}
+		else
+		{
+			System.out.println("Anubis knocks you down, and juts his staff into your sternum.You feel your life energy slip away...");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("You made it this far. Shame you couldn't end it.");
+		}
+			
 		
 	}
 
@@ -643,12 +667,14 @@ public class Main
 						}
 						else if (chosenMove.getID() == 7)
 						{
+							p1.subtractEnergy(chosenMove.getEnergyCost());
 							if (Math.random() < 0.2)
 							{
 								System.out.println("Your attack missed!");
 							}
 							else
 							{
+								e1.hpDown(10);
 								System.out.println("The enemy took 10 damage from your attack and is now at " + e1.getHealth() + " health.");
 								if (e1.getHealth() <= 0)
 								{
@@ -732,6 +758,12 @@ public class Main
 				System.out.println("The enemy is stunned and can't act this turn!");
 				isStunned = false;
 			}
+			else if (playerWins)
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("The enemy is all out of HP!");
+			}
 			else
 			{
 				System.out.println("It is the enemy's turn.");
@@ -769,21 +801,26 @@ public class Main
 			}
 			
 
-		}
-
 		if (playerWins)
 		{
 			p1.addGold(e1.getValue());
 			p1.energyUp(20);
 			System.out.println("You win! You gain " + e1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
 
-			return p1;
+			stillFighting = false;
 		}
-		else
+		else if (enemyWins)
 		{
 			loseGame(p1);
 			return p1;
 		}
+
+		}
+
+		return p1;
+
+		
+
 	}
 
 	/****************************************************************
@@ -793,7 +830,7 @@ public class Main
 	public static Player setUpBossFight(int selection, Player p1, scrollInventory s1) throws InterruptedException
 	{
 
-		Boss Anubis = new Boss(100, 6, 9, 30, 20, "Anubis, Death's Servant");
+		Boss Anubis = new Boss(100, 6, 9, 30, 20, "Anubis, Noble Servant");
 		Spell emanate = new Spell(0, 7, 0, "Emanate", 1);
 		Spell soul_Eater = new Spell(0.2, 6, 1, "Soul Eater", 2);
 		bossAttacks a1 = new bossAttacks(emanate);
@@ -822,6 +859,14 @@ public class Main
 		Spell reflect_Attack = new Spell(0, 6, 0, "Reflect Attack", 10);
 		bossAttacks a5 = new bossAttacks(infuriate);
 		a5.addAttack(reflect_Attack);
+
+		Boss Ulula = new Boss(150, 17, 17, 30, 20, "Ulula the Banshee");
+		Spell hijack = new Spell(0.2, 3, 1.5, "Hijack", 11);
+		Spell aggravate = new Spell(0.1, 4, 2.5, "Aggravate", 12);
+		bossAttacks a6 = new bossAttacks(hijack);
+		a6.addAttack(aggravate);
+
+		Boss AnubisX = new Boss(300, 15, 20, 10000, 20, "Anubis, the God-Emperor");
 
 		if (selection == 1)
 		{
@@ -880,9 +925,55 @@ public class Main
 			TimeUnit.SECONDS.sleep(1);
 			initiateBossFight(p1, Petrallum, a5, s1, 0);
 		}
+		else if (selection == 6)
+		{
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("As you reach the 60th floor of the tower, you stumble upon a banshee who seems inbetween your reality and imagination.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("'Hero, how well do you really know yourself? How unbreakable is your will? I want to find out...'");
+			System.out.println("...!");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("The banshee transformed into a mirror image of you, and then attacked!");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			initiateBossFight(p1, Ulula, a6, s1, 2);
+		}
 
-		//Banshee Boss: Frostbite passive deals fixed damage every turn, Unwanted Control move uses players' attack stat to attack, and Aggravate does high damage but increases player attack
-		//Final Boss: Emperor Anubis - His passive is he gains 40% Attack and Defense when he falls under half HP, he uses first boss' attacks
+		else if (selection == 7)
+		{
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("You climb up the stairs and in awe, you notice that you are at the top of the tower. The wind shrieks by your ears.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("But your awe turns to fear as you see the same jackal-headed figure you saw at the 10th floor, in an aggressive stance and profound features.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("He looks...");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			System.out.println("Like he is both a god and an emperor.");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(3);
+			System.out.println("'So I see you have survived through this tower's trials. You have fought and killed monster upon monster. You have come to the top for the treasure.'");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(2);
+			System.out.println("'I am afraid, however, that absconding with the Tower of Quest's treasure is not an option for you and anyone else.'");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(2);
+			System.out.println("'This treasure was made as a tribute for Ra himself, so that he may retain his power as he rules above. He has given me godlike powers, including control of who lives or dies, to protect it.'");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(2);
+			System.out.println("'You will not strip him of his powers. I do not enjoy killing, as I warned you to leave on the 10th floor. You didn't turn back. Now, you must pay in blood.'");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(2);
+			System.out.println("'You had your chance.'");
+			System.out.println("...");
+			TimeUnit.SECONDS.sleep(1);
+			initiateBossFight(p1, AnubisX, a1, s1, 3);
+		}
 
 		return p1;
 	}
@@ -1076,12 +1167,14 @@ public class Main
 						}
 						else if (chosenMove.getID() == 7)
 						{
+							p1.subtractEnergy(chosenMove.getEnergyCost());
 							if (Math.random() < 0.2)
 							{
 								System.out.println("Your attack missed!");
 							}
 							else
 							{
+								b1.hpDown(10);
 								System.out.println("The enemy took 10 damage from your attack and is now at " + b1.getHealth() + " health.");
 								if (b1.getHealth() <= 0)
 								{
@@ -1156,7 +1249,9 @@ public class Main
 				{
 					System.out.println("Your bag is empty!");
 				}
+
 			}
+
 			
 			// Boss turn
 			if (isStunned)
@@ -1165,6 +1260,12 @@ public class Main
 				TimeUnit.SECONDS.sleep(1);
 				System.out.println("The enemy is stunned and can't act this turn!");
 				isStunned = false;
+			}
+			else if (playerWins)
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("The enemy is all out of HP!");
 			}
 			else
 			{
@@ -1432,6 +1533,70 @@ public class Main
 							p1.hpDown(roundedBossDamage);
 							System.out.println("You are now at " + p1.getHealth() + " health.");
 						}
+						else if (randomAttack.getID() == 11)
+						{
+							if (Math.random() > 0.2)
+							{
+								double decimalBossDamage = p1.getDisplayAttack() * randomAttack.getPower() + getRandomInt(1, 3);
+								decimalBossDamage -= (p1.getDisplayDefense() / 2);
+								if (guardUp)
+								{
+									decimalBossDamage /= 4;
+									decimalBossDamage *= 3;
+								}
+								int roundedBossDamage = (int) decimalBossDamage;
+								if (roundedBossDamage > 0)
+								{
+									System.out.println(b1.getName() + " uses your own attack stat to strike you for " + roundedBossDamage + " damage!");
+									p1.hpDown(roundedBossDamage);
+									System.out.println("You are now at " + p1.getHealth() + " health.");
+								}
+								else
+								{
+									System.out.println("Your defense was too strong for the enemy's attack! It only did 1 damage!");
+									p1.hpDown(1);
+									System.out.println("You are now at " + p1.getHealth() + " health.");
+								}
+							}
+							else
+							{
+								System.out.println(b1.getName() + " attempted to strike you with a chilly fist, but missed!");
+							}
+						}
+						else if (randomAttack.getID() == 12)
+						{
+							if (Math.random() > 0.1)
+							{
+								double decimalBossDamage = b1.getDisplayAttack() * randomAttack.getPower() + getRandomInt(1, 3);
+								decimalBossDamage -= (p1.getDisplayDefense() / 2);
+								if (guardUp)
+								{
+									decimalBossDamage /= 4;
+									decimalBossDamage *= 3;
+								}
+								int roundedBossDamage = (int) decimalBossDamage;
+								if (roundedBossDamage > 0)
+								{
+									System.out.println(b1.getName() + " strikes you for " + roundedBossDamage + " damage with a frozen blast!");
+									System.out.println("The great chill forces your veins to warm up, increasing your attack stat by 20%!");
+									p1.hpDown(roundedBossDamage);
+									int roundAttack2 = (int) (p1.getDisplayAttack() * 1.2);
+									p1.setDisplayAttack(roundAttack2);
+									System.out.println("You are now at " + p1.getHealth() + " health and " + p1.getDisplayAttack() + " attack!");
+									
+								}
+								else
+								{
+									System.out.println("Your defense was too strong for the enemy's attack! It only did 1 damage!");
+									p1.hpDown(1);
+									System.out.println("You are now at " + p1.getHealth() + " health.");
+								}
+							}
+							else
+							{
+								System.out.println(b1.getName() + " attempted to strike you with a frozen blast, but missed!");
+							}
+						}
 					}
 
 				}
@@ -1477,28 +1642,52 @@ public class Main
 				b1.setDisplayAttack(roundBossAttack4);
 				System.out.println(b1.getName() + " is now at " + b1.getDisplayAttack() + " attack.");
 			}
+			else if (h == 2)
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("The very sight of Ulula chills you to the bone, and her frosty aura does 3 damage to you!");
+				p1.hpDown(3);
+				System.out.println("You are now at " + p1.getHealth() + " health.");
+			}
+			else if (h == 3)
+			{
+				if (b1.getHealth() < 150)
+				{
+					System.out.println("...");
+					TimeUnit.SECONDS.sleep(1);
+					System.out.println("Sensing that he has suffered mortal wounds, Anubis unleashes his power, fully restoring his HP but losing his godlike aura.");
+					b1.hpUp(300);
+					h = 0;
+				}
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("I. Am. Infinite.");
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("Anubis regained 5 HP!");
+				b1.hpUp(5);
+
+			}
+
+				if (playerWins)
+				{
+					p1.addGold(b1.getValue());
+					p1.energyUp(20);
+					System.out.println("You win! You gain " + b1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
+
+					stillFighting = false;
+				}
+				else if (enemyWins)
+				{
+					loseGame(p1);
+					return p1;
+				}
 
 		}
 
-		
+		return p1;
 
-		if (playerWins)
-		{
-			p1.addGold(b1.getValue());
-			p1.energyUp(100);
-			p1.hpUp(50);
-			System.out.println("You win! You gain " + b1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
-			System.out.println("...");
-			TimeUnit.SECONDS.sleep(1);
-			System.out.println("You take the next day of your adventure off to recover from the intense fight, restoring 50 HP and 100 energy.");
-
-			return p1;
-		}
-		else
-		{
-			loseGame(p1);
-			return p1;
-		}
 	}
 
 	/****************************************************************
