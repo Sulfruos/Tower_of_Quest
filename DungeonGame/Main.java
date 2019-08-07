@@ -17,51 +17,14 @@ public class Main
 		Part 1: Setting Up Player, Defining Scrolls
 		****************************************************************/
 
+		//possible classes:
+		//Monk - Attack, Shock Palm, Invigorate
+		//Warrior - Attack, Sword Charge, Guard Strike
+		//Rogue - Attack, Precise Strike, 30 gold
+		//Barbarian - Attack, Wild Swing, Decimate
+		//Paladin - Attack, Purge, Health Potion
+
 		Player p1 = new Player();
-
-		Scroll basicAttack = new Scroll(0.2, 5, 2, "Sword Slash", 0, true);
-		basicAttack.setDesc("A simple but reliable attack.");
-		Scroll sword_Charge = new Scroll(0.4, 20, 5, "Sword Charge", 0, true);
-		sword_Charge.setDesc("Riskily attacks the foe by lunging with the sword for high damage.");
-		Scroll precise_Strike = new Scroll(0, 10, 3, "Precise Strike", 0, true);
-		precise_Strike.setDesc("Aims for the perfect moment to strike with great accuracy.");
-		Scroll wild_Swing = new Scroll(0.5, 5, 4, "Wild Swing", 0, true);
-		wild_Swing.setDesc("Broadly swings at the foe for medium damage if it hits.");
-		Scroll dragon_Strike = new Scroll(0, 30, 6, "Dragon Strike", 0, true);
-		dragon_Strike.setDesc("Utilizes ancient technique to strike the foe with high power and accuracy.");
-		Scroll invigorate = new Scroll(0, 40, 0, "Invigorate", 1, false);
-		invigorate.setDesc("Naturally flows chi through the body, restoring 12 HP.");
-		Scroll dark_Aura = new Scroll(0, 80, 0, "Dark Aura", 2, false);
-		dark_Aura.setDesc("Utilizes dark technique to double attack stat.");
-		Scroll bulwark = new Scroll(0, 30, 0, "Bulwark", 3, false);
-		bulwark.setDesc("Strengthens the body to increase defense by 25% and take 25% less damage on the turn used.");
-		Scroll skullCrack = new Scroll(0.4, 25, 4, "Skullcrack", 4, false);
-		skullCrack.setDesc("Riskily aims for the foe's head to deal damage and has a 50% chance to weaken them.");
-		Scroll shock_Palm = new Scroll(0.1, 15, 3, "Shock Palm", 5, false);
-		shock_Palm.setDesc("Quickly jabs the foe with the open hand. 20% chance to stun the foe.");
-		Scroll all_or_nothing = new Scroll(0, 60, 7, "All or Nothing", 6, false);
-		all_or_nothing.setDesc("Attacks with great energy, dealing high damage and stunning foe.");
-		Scroll arcane_Bolt = new Scroll(0.2, 20, 0, "Arcane Bolt", 7, false);
-		arcane_Bolt.setDesc("Shoots a mystical bolt at the foe that always does 10 damage.");
-
-
-		scrollInventory scrollsOwned = new scrollInventory(basicAttack);
-		scrollsOwned.addScroll(sword_Charge);
-		
-
-		scrollInventory purchasableScrolls = new scrollInventory(precise_Strike);
-		purchasableScrolls.addScroll(shock_Palm);
-		purchasableScrolls.addScroll(wild_Swing);
-		purchasableScrolls.addScroll(dragon_Strike);
-		purchasableScrolls.addScroll(invigorate);
-		purchasableScrolls.addScroll(bulwark);
-		purchasableScrolls.addScroll(skullCrack);
-		purchasableScrolls.addScroll(dark_Aura);
-		purchasableScrolls.addScroll(all_or_nothing);
-		scrollsOwned.addScroll(arcane_Bolt);
-
-
-		Scanner input = new Scanner(System.in);
 
 		System.out.println("A dishonored knight");
 		System.out.println("...");
@@ -97,6 +60,196 @@ public class Main
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(3);
 
+
+		Scanner input = new Scanner(System.in);
+
+		Scroll attack = new Scroll(0.1, 5, 2, "Attack", 0, true);
+		attack.setDesc("A simple but reliable attack.");
+		Scroll sword_Charge = new Scroll(0.35, 20, 5, "Sword Charge", 0, true);
+		sword_Charge.setDesc("Riskily attacks the foe by lunging with the sword for high damage.");
+		Scroll precise_Strike = new Scroll(0, 10, 3, "Precise Strike", 0, true);
+		precise_Strike.setDesc("Aims for the perfect moment to strike with great accuracy.");
+		Scroll wild_Swing = new Scroll(0.5, 5, 4, "Wild Swing", 0, true);
+		wild_Swing.setDesc("Broadly swings at the foe for medium damage if it hits.");
+		Scroll dragon_Strike = new Scroll(0, 30, 6, "Dragon Strike", 0, true);
+		dragon_Strike.setDesc("Utilizes ancient technique to strike the foe with high power and accuracy.");
+		Scroll invigorate = new Scroll(0, 20, 0, "Invigorate", 1, false);
+		invigorate.setDesc("Naturally flows chi through the body, restoring 9 HP and 30 Energy over 3 turns.");
+		Scroll dark_Aura = new Scroll(0, 80, 0, "Dark Aura", 2, false);
+		dark_Aura.setDesc("Utilizes dark technique to double attack stat.");
+		Scroll bulwark = new Scroll(0, 30, 0, "Bulwark", 3, false);
+		bulwark.setDesc("Strengthens the body to increase defense by 20% and take 50% less damage on the turn used.");
+		Scroll skullCrack = new Scroll(0.4, 25, 4, "Skullcrack", 4, false);
+		skullCrack.setDesc("Riskily aims for the foe's head to deal damage and has a 50% chance to weaken them.");
+		Scroll shock_Palm = new Scroll(0.1, 15, 3, "Shock Palm", 5, false);
+		shock_Palm.setDesc("Quickly jabs the foe with the open hand. 20% chance to stun the foe.");
+		Scroll all_or_nothing = new Scroll(0, 60, 7, "All or Nothing", 6, false);
+		all_or_nothing.setDesc("Attacks with great energy, dealing high damage and stunning foe.");
+		Scroll arcane_Bolt = new Scroll(0.1, 20, 0, "Arcane Bolt", 7, false);
+		arcane_Bolt.setDesc("Shoots a mystical bolt at the foe that always does 10 damage.");
+		Scroll guarding_Strike = new Scroll(0, 15, 2, "Guarding Strike", 8, false);
+		guarding_Strike.setDesc("Attacks by bashing the foe with a shield and guards and take 50% less damage on the turn used.");
+		Scroll decimate = new Scroll(0.2, 25, 3, "Decimate", 9, false);
+		decimate.setDesc("Crushes through the opponent's armor to deal damage that ignores their defense.");
+		Scroll purge = new Scroll(0, 20, 3, "Purge", 10, false);
+		purge.setDesc("Blasts the foe with invoked light to deal damage and remove all stat changes.");
+
+		scrollInventory scrollsOwned = new scrollInventory(attack);
+
+		scrollInventory purchasableScrolls = new scrollInventory(arcane_Bolt);
+
+
+		System.out.println("Now, all knights have identities. What is yours?");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("Monk, who walks the path to enlightenment. Starter scrolls: ");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		attack.getDesc();
+		invigorate.getDesc();
+		shock_Palm.getDesc();
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(3);
+		System.out.println("Warrior, who decides matters by his might and intellect. Starter scrolls: ");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		attack.getDesc();
+		sword_Charge.getDesc();
+		guarding_Strike.getDesc();
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(3);
+		System.out.println("Barbarian, who uses brute force and the luck of battle to get his way. Starter scrolls: ");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		attack.getDesc();
+		wild_Swing.getDesc();
+		decimate.getDesc();
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(3);
+		System.out.println("Paladin, who has mastered the powers of light and justice. Has come prepared with two Health Potions. Starter scrolls: ");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		attack.getDesc();
+		purge.getDesc();
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(3);
+		System.out.println("Rogue, who strikes fast and sharp. Snuck in 30 gold. Starter scrolls: ");
+		attack.getDesc();
+		precise_Strike.getDesc();
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(3);
+		System.out.println("Now, choose a class to begin the ascent.");
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(1);
+		System.out.println("Press 1 for Monk, 2 for Warrior, 3 for Barbarian, 4 for Paladin, or 5 for Rogue: ");
+
+		int userChoice = input.nextInt();
+		if (userChoice == 1)
+		{
+			System.out.println("You are a Monk! Now, let us begin...");
+			scrollsOwned.addScroll(invigorate);
+			scrollsOwned.addScroll(shock_Palm);
+
+			purchasableScrolls.addScroll(guarding_Strike);
+			purchasableScrolls.addScroll(sword_Charge);
+			purchasableScrolls.addScroll(wild_Swing);
+			purchasableScrolls.addScroll(decimate);
+			purchasableScrolls.addScroll(dragon_Strike);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(bulwark);
+			purchasableScrolls.addScroll(skullCrack);
+			purchasableScrolls.addScroll(dark_Aura);
+			purchasableScrolls.addScroll(all_or_nothing);
+			purchasableScrolls.addScroll(purge);
+			purchasableScrolls.addScroll(precise_Strike);
+
+		}
+		else if (userChoice == 2)
+		{
+			System.out.println("You are a Warrior! Now, let us begin...");
+			scrollsOwned.addScroll(sword_Charge);
+			scrollsOwned.addScroll(guarding_Strike);
+
+			purchasableScrolls.addScroll(shock_Palm);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(wild_Swing);
+			purchasableScrolls.addScroll(decimate);
+			purchasableScrolls.addScroll(dragon_Strike);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(bulwark);
+			purchasableScrolls.addScroll(skullCrack);
+			purchasableScrolls.addScroll(dark_Aura);
+			purchasableScrolls.addScroll(all_or_nothing);
+			purchasableScrolls.addScroll(purge);
+			purchasableScrolls.addScroll(precise_Strike);
+		}
+		else if (userChoice == 3)
+		{
+			System.out.println("You are a Barbarian! Now, let us begin...");
+			scrollsOwned.addScroll(wild_Swing);
+			scrollsOwned.addScroll(decimate);
+
+			purchasableScrolls.addScroll(guarding_Strike);
+			purchasableScrolls.addScroll(sword_Charge);
+			purchasableScrolls.addScroll(shock_Palm);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(dragon_Strike);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(bulwark);
+			purchasableScrolls.addScroll(skullCrack);
+			purchasableScrolls.addScroll(dark_Aura);
+			purchasableScrolls.addScroll(all_or_nothing);
+			purchasableScrolls.addScroll(purge);
+			purchasableScrolls.addScroll(precise_Strike);
+			
+		}
+		else if (userChoice == 4)
+		{
+			System.out.println("You are a Paladin! Now, let us begin...");
+			scrollsOwned.addScroll(purge);
+			p1.addPot();
+			p1.addPot();
+
+			purchasableScrolls.addScroll(wild_Swing);
+			purchasableScrolls.addScroll(decimate);
+			purchasableScrolls.addScroll(guarding_Strike);
+			purchasableScrolls.addScroll(sword_Charge);
+			purchasableScrolls.addScroll(shock_Palm);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(dragon_Strike);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(bulwark);
+			purchasableScrolls.addScroll(skullCrack);
+			purchasableScrolls.addScroll(dark_Aura);
+			purchasableScrolls.addScroll(all_or_nothing);
+			purchasableScrolls.addScroll(precise_Strike);
+		}
+		else if (userChoice == 5)
+		{
+			System.out.println("You are a Rogue! Now, let us begin...");
+			scrollsOwned.addScroll(precise_Strike);
+			p1.addGold(30);
+
+			purchasableScrolls.addScroll(purge);
+			purchasableScrolls.addScroll(wild_Swing);
+			purchasableScrolls.addScroll(decimate);
+			purchasableScrolls.addScroll(guarding_Strike);
+			purchasableScrolls.addScroll(sword_Charge);
+			purchasableScrolls.addScroll(shock_Palm);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(dragon_Strike);
+			purchasableScrolls.addScroll(invigorate);
+			purchasableScrolls.addScroll(bulwark);
+			purchasableScrolls.addScroll(skullCrack);
+			purchasableScrolls.addScroll(dark_Aura);
+			purchasableScrolls.addScroll(all_or_nothing);
+		
+		}
+
+		System.out.println("...");
+		TimeUnit.SECONDS.sleep(2);
+
+
 		/****************************************************************
 		Part 2: The Actual Game (calling methods for encounters/fights)
 		****************************************************************/
@@ -114,6 +267,7 @@ public class Main
 				TimeUnit.SECONDS.sleep(1);
 				if (decFloor == 1)
 				{
+					
 					p1 = setUpFight(getRandomInt(1, 9), p1, scrollsOwned);
 				
 				}
@@ -183,10 +337,14 @@ public class Main
 		}
 		else
 		{
-			System.out.println("Anubis knocks you down, and juts his staff into your sternum.You feel your life energy slip away...");
-			System.out.println("...");
-			TimeUnit.SECONDS.sleep(1);
-			System.out.println("You made it this far. Shame you couldn't end it.");
+			if (bossNumber == 7)
+			{
+				System.out.println("Anubis knocks you down and juts his staff into your sternum.You feel your life energy slip away...");
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("You made it this far. Shame you couldn't end it.");
+			}
+			
 		}
 			
 		
@@ -493,6 +651,7 @@ public class Main
 		boolean stillFighting = true;
 		boolean guardUp = false; // used to check if player guarded this turn
 		boolean isStunned = false; //used to check if enemy is stunned by an attack
+		int channelCount = 0; //amount of invigorate turns left
 		Scanner input = new Scanner(System.in);
 
 		boolean playerWins = false;
@@ -506,7 +665,17 @@ public class Main
 
 		while (stillFighting)
 		{
-			// Player turn 
+			// Player turn
+
+			if (channelCount > 0)
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("You feel your blood boil in a lukewarm way, causing you to relax. You regain 3 HP and 10 Energy!");
+				p1.hpUp(3);
+				p1.energyUp(10);
+				channelCount--;
+			}
 
 			System.out.println("You have " + p1.getHealth() + " HP and " + p1.getEnergy() + " energy remaining.");
 			System.out.println("The enemy is at " + e1.getHealth() + " health.");
@@ -529,9 +698,8 @@ public class Main
 						if (chosenMove.getID() == 1)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							System.out.println("You channel your energy into your chi, letting it flow through you and restoring 12 HP.");
-							p1.hpUp(12);
-							System.out.println("You are now at " + p1.getHealth() + " health.");
+							System.out.println("You channel your energy into your chi, letting it flow through you for the next 3 turns.");
+							channelCount = 3;
 						}
 						else if (chosenMove.getID() == 2)
 						{
@@ -545,8 +713,8 @@ public class Main
 						else if (chosenMove.getID() == 3)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							System.out.println("You feel your chest harden to the quality of stone. Your Defense increases by 25% and you reduce damage taken this turn by 25%.");
-							int roundDefense = (int) (p1.getDisplayDefense() * 1.25);
+							System.out.println("You feel your chest harden to the quality of stone. Your Defense increases by 20% and you reduce damage taken this turn by 50%.");
+							int roundDefense = (int) (p1.getDisplayDefense() * 1.2);
 							p1.setDisplayDefense(roundDefense);
 							System.out.println("Your defense is now " + p1.getDisplayDefense() + ".");
 							guardUp = true;
@@ -668,7 +836,7 @@ public class Main
 						else if (chosenMove.getID() == 7)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							if (Math.random() < 0.2)
+							if (Math.random() < 0.1)
 							{
 								System.out.println("Your attack missed!");
 							}
@@ -680,6 +848,99 @@ public class Main
 								{
 									stillFighting = false;
 									playerWins = true;
+								}
+							}
+						}
+						else if (chosenMove.getID() == 8)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - e1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									e1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
+									if (e1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+									guardUp = true;
+									System.out.println("You also quickly hold your weapon up, blocking 50% of the next damage you take.");
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										e1.hpDown(1);
+									
+								}
+							}
+						}
+						else if (chosenMove.getID() == 9)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula;
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									e1.hpDown(roundedPlayerDamage);
+									System.out.println("You attack the floor with a mighty swing, sending a shockwave towards the opponent that ignores their armor.");
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
+									if (e1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+								}
+							}
+						}
+						else if (chosenMove.getID() == 10)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - e1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									e1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + e1.getHealth() + " health.");
+									if (e1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+									System.out.println("The power of the light cleanses your opponent, removing all of their stat changes!");
+									e1.setDisplayAttack(e1.getAttack());
+									e1.setDisplayDefense(e1.getDefense());
+									System.out.println("The enemy now has " + e1.getDisplayAttack() + " attack and " + e1.getDisplayDefense() + " defense!");
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										e1.hpDown(1);
+									
 								}
 							}
 						}
@@ -727,7 +988,7 @@ public class Main
 			}
 			else if (userChoice == 2)
 			{
-				System.out.println("You guard this turn, restoring 10 energy and reducing damage taken by 25%.");
+				System.out.println("You guard this turn, restoring 10 energy and reducing damage taken by 50%.");
 				p1.energyUp(10);
 				guardUp = true;
 			}
@@ -774,7 +1035,8 @@ public class Main
 				if (guardUp)
 				{
 					decimalEnemyDamage /= 4;
-					decimalEnemyDamage *= 3;
+					decimalEnemyDamage *= 2;
+					guardUp = false;
 				}
 				int roundedEnemyDamage = (int) decimalEnemyDamage;
 				if (roundedEnemyDamage > 0)
@@ -989,6 +1251,7 @@ public class Main
 		boolean stillFighting = true;
 		boolean guardUp = false; // used to check if player guarded this turn
 		boolean isStunned = false; //used to check if enemy is stunned by an attack
+		int channelCount = 0; //amount of invigorate turns left
 		Scanner input = new Scanner(System.in);
 
 		boolean playerWins = false;
@@ -1004,7 +1267,17 @@ public class Main
 		{
 			int forReflection = 0;
 
-			// Player turn 
+			// Player turn
+
+			if (channelCount > 0)
+			{
+				System.out.println("...");
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("You feel your blood boil in a lukewarm way, causing you to relax. You regain 3 HP and 10 Energy!");
+				p1.hpUp(3);
+				p1.energyUp(10);
+				channelCount--;
+			} 
 
 			System.out.println("You have " + p1.getHealth() + " HP and " + p1.getEnergy() + " energy remaining.");
 			System.out.println("The enemy is at " + b1.getHealth() + " health.");
@@ -1027,9 +1300,8 @@ public class Main
 						if (chosenMove.getID() == 1)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							System.out.println("You channel your energy into your chi, letting it flow through you and restoring 12 HP.");
-							p1.hpUp(12);
-							System.out.println("You are now at " + p1.getHealth() + " health.");
+							System.out.println("You channel your energy into your chi, letting it flow through you for the next 3 turns.");
+							channelCount = 3;
 						}
 						else if (chosenMove.getID() == 2)
 						{
@@ -1043,8 +1315,8 @@ public class Main
 						else if (chosenMove.getID() == 3)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							System.out.println("You feel your chest harden to the quality of stone. Your Defense increases by 25% and you reduce damage taken this turn by 25%.");
-							int roundDefense = (int) (p1.getDisplayDefense() * 1.25);
+							System.out.println("You feel your chest harden to the quality of stone. Your Defense increases by 20% and you reduce damage taken this turn by 50%.");
+							int roundDefense = (int) (p1.getDisplayDefense() * 1.2);
 							p1.setDisplayDefense(roundDefense);
 							System.out.println("Your defense is now " + p1.getDisplayDefense() + ".");
 							guardUp = true;
@@ -1168,7 +1440,7 @@ public class Main
 						else if (chosenMove.getID() == 7)
 						{
 							p1.subtractEnergy(chosenMove.getEnergyCost());
-							if (Math.random() < 0.2)
+							if (Math.random() < 0.1)
 							{
 								System.out.println("Your attack missed!");
 							}
@@ -1180,6 +1452,92 @@ public class Main
 								{
 									stillFighting = false;
 									playerWins = true;
+								}
+							}
+						}
+						else if (chosenMove.getID() == 8)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - b1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									b1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + b1.getHealth() + " health.");
+									if (b1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+									guardUp = true;
+									System.out.println("You also quickly hold your weapon up, blocking 50% of the next damage you take.");
+								}
+								else
+								{
+									
+										System.out.println("Your attack only scratched the foe's strong defense and dealt 1 damage.");
+										b1.hpDown(1);
+									
+								}
+							}
+						}
+						else if (chosenMove.getID() == 9)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula;
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									b1.hpDown(roundedPlayerDamage);
+									System.out.println("You attack the floor with a mighty swing, sending a shockwave towards the opponent that ignores their armor.");
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + b1.getHealth() + " health.");
+									if (b1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+								}
+							}
+						}
+						else if (chosenMove.getID() == 10)
+						{
+							double scrollFormula = (p1.getPlayerDamage(s1.chooseScroll(userChoice)) * p1.getDisplayAttack() / 2);
+							if (scrollFormula == 0)
+							{
+								System.out.println("Your attack missed!");
+							}
+							else
+							{
+								double decimalPlayerDamage = scrollFormula - b1.getDisplayDefense();
+								int roundedPlayerDamage = (int) decimalPlayerDamage;
+								roundedPlayerDamage += getRandomInt(1, 3);
+								if (roundedPlayerDamage > 0)
+								{
+									b1.hpDown(roundedPlayerDamage);
+									System.out.println("The enemy took "  + roundedPlayerDamage + " damage from your attack and is now at " + b1.getHealth() + " health.");
+									if (b1.getHealth() <= 0)
+									{
+										stillFighting = false;
+										playerWins = true;
+									}
+									System.out.println("The power of the light cleanses your opponent, removing all of their stat changes!");
+									b1.setDisplayAttack(b1.getAttack());
+									b1.setDisplayDefense(b1.getDefense());
+									System.out.println("The enemy now has " + b1.getDisplayAttack() + " attack and " + b1.getDisplayDefense() + " defense!");
 								}
 							}
 						}
@@ -1228,7 +1586,7 @@ public class Main
 			}
 			else if (userChoice == 2)
 			{
-				System.out.println("You guard this turn, restoring 10 energy and reducing damage taken by 25%.");
+				System.out.println("You guard this turn, restoring 10 energy and reducing damage taken by 50%.");
 				p1.energyUp(10);
 				guardUp = true;
 			}
@@ -1283,7 +1641,8 @@ public class Main
 						if (guardUp)
 						{
 							decimalBossDamage /= 4;
-							decimalBossDamage *= 3;
+							decimalBossDamage *= 2;
+							guardUp = false;
 						}
 						int roundedBossDamage = (int) decimalBossDamage;
 						if (roundedBossDamage > 0)
@@ -1340,7 +1699,8 @@ public class Main
 							if (guardUp)
 							{
 								decimalBossDamage /= 4;
-								decimalBossDamage *= 3;
+								decimalBossDamage *= 2;
+								guardUp = false;
 							}
 							int roundedBossDamage = (int) decimalBossDamage;
 							if (roundedBossDamage > 0)
@@ -1373,7 +1733,8 @@ public class Main
 								if (guardUp)
 								{
 									decimalBossDamage /= 4;
-									decimalBossDamage *= 3;
+									decimalBossDamage *= 2;
+									guardUp = false;
 								}
 								int roundedBossDamage = (int) decimalBossDamage;
 								if (roundedBossDamage > 0)
@@ -1403,7 +1764,8 @@ public class Main
 							if (guardUp)
 							{
 								decimalBossDamage /= 4;
-								decimalBossDamage *= 3;
+								decimalBossDamage *= 2;
+								guardUp = false;
 							}
 							int roundedBossDamage = (int) decimalBossDamage;
 							if (roundedBossDamage > 0)
@@ -1425,7 +1787,8 @@ public class Main
 							if (guardUp)
 							{
 								decimalBossDamage /= 4;
-								decimalBossDamage *= 3;
+								decimalBossDamage *= 2;
+								guardUp = false;
 							}
 							int roundedBossDamage = (int) decimalBossDamage;
 							if (roundedBossDamage > 0)
@@ -1450,7 +1813,8 @@ public class Main
 							if (guardUp)
 							{
 								decimalBossDamage /= 4;
-								decimalBossDamage *= 3;
+								decimalBossDamage *= 2;
+								guardUp = false;
 							}
 							int roundedBossDamage = (int) decimalBossDamage;
 							if (roundedBossDamage > 0)
@@ -1470,7 +1834,8 @@ public class Main
 							if (guardUp)
 							{
 								decimalBossDamage /= 4;
-								decimalBossDamage *= 3;
+								decimalBossDamage *= 2;
+								guardUp = false;
 							}
 							int roundedBossDamage2 = (int) decimalBossDamage2;
 							if (roundedBossDamage2 > 0)
@@ -1495,7 +1860,8 @@ public class Main
 								if (guardUp)
 								{
 									decimalBossDamage /= 4;
-									decimalBossDamage *= 3;
+									decimalBossDamage *= 2;
+									guardUp = false;
 								}
 								int roundedBossDamage = (int) decimalBossDamage;
 								if (roundedBossDamage > 0)
@@ -1542,7 +1908,8 @@ public class Main
 								if (guardUp)
 								{
 									decimalBossDamage /= 4;
-									decimalBossDamage *= 3;
+									decimalBossDamage *= 2;
+									guardUp = false;
 								}
 								int roundedBossDamage = (int) decimalBossDamage;
 								if (roundedBossDamage > 0)
@@ -1572,7 +1939,8 @@ public class Main
 								if (guardUp)
 								{
 									decimalBossDamage /= 4;
-									decimalBossDamage *= 3;
+									decimalBossDamage *= 2;
+									guardUp = false;
 								}
 								int roundedBossDamage = (int) decimalBossDamage;
 								if (roundedBossDamage > 0)
@@ -1607,7 +1975,8 @@ public class Main
 					if (guardUp)
 					{
 						decimalBossDamage /= 4;
-						decimalBossDamage *= 3;
+						decimalBossDamage *= 2;
+						guardUp = false;
 					}
 					int roundedBossDamage = (int) decimalBossDamage;
 					if (roundedBossDamage > 0)
@@ -1675,6 +2044,11 @@ public class Main
 					p1.addGold(b1.getValue());
 					p1.energyUp(20);
 					System.out.println("You win! You gain " + b1.getValue() + " gold and are now at " + p1.getGold() + " gold!");
+					System.out.println("...");
+					TimeUnit.SECONDS.sleep(1);
+					System.out.println("You take a day off from your adventure, restoring yourself to full health and energy.");
+					p1.hpUp(100);
+					p1.energyUp(100);
 
 					stillFighting = false;
 				}
@@ -1822,18 +2196,18 @@ public class Main
 		Scroll randomScroll = s2.chooseScroll(getRandomInt(0, s2.getSize() - 1));
 		System.out.println("...");
 		TimeUnit.SECONDS.sleep(1);
-		System.out.println("'I'm selling " + randomScroll.getName() + " for 50 gold. Take it er' leave it.'");
+		System.out.println("'I'm selling " + randomScroll.getName() + " for 40 gold. Take it er' leave it.'");
 		randomScroll.getDesc();
 		System.out.println("Press 1 to purchase " + randomScroll.getName() + " or 2 to Quit.");
 
 		int userChoice = input.nextInt();
 		if (userChoice == 1)
 		{
-			if (p1.getGold() >= 50)
+			if (p1.getGold() >= 40)
 			{
 				System.out.println("You bought " + randomScroll.getName() + "!");
 				s1.addScroll(randomScroll);
-				p1.subtractGold(50);
+				p1.subtractGold(40);
 				System.out.println("You are now at " + p1.getGold() + " gold.");
 			}
 			else
@@ -1875,11 +2249,11 @@ public class Main
 		int userChoice = input.nextInt();
 		if (userChoice == 1)
 		{
-			if (p1.getGold() >= 30)
+			if (p1.getGold() >= 20)
 			{
 				System.out.println("You bought " + randomScroll.getName() + "!");
 				s1.addScroll(randomScroll);
-				p1.subtractGold(30);
+				p1.subtractGold(20);
 				System.out.println("You are now at " + p1.getGold() + " gold.");
 			}
 			else
