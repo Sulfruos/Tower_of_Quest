@@ -9,4 +9,4 @@ creating more encounters, enemies, and revamping the combat system through intro
 Perhaps I could even use JavaFX or Processing to transcend this game from text based, but then it 
 may lose its' indie old-school dungeon runner feel. 
 
-Currently, the game is essentially finished (at least text-based wise)! I just need to make it more user-friendly and crack down on a few bugs which I can learn through playtesting. I look forward to continuing with this project.
+Currently, the game is finished (at least text-based wise)! I look forward to continuing with this project through possibly making it graphical, but for now, be prepared to spend an afternoon on it!
